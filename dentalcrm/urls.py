@@ -1,16 +1,15 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('test-translations/', TemplateView.as_view(template_name='test_translations.html'), name='test_translations'),
     path('', include('accounts.urls')),
-]
-
-urlpatterns += i18n_patterns(
+    
+    # Admin
     path('admin/', admin.site.urls),
+    
     # UI pages
     path('dashboard/', TemplateView.as_view(template_name='index.html'), name='dashboard_page'),
     path('leads/page/', TemplateView.as_view(template_name='leads.html'), name='leads_page'),
@@ -29,6 +28,6 @@ urlpatterns += i18n_patterns(
     path('appointments/', include('appointments.urls')),
     path('payments/', include('payments.urls')),
     path('receipts/', include('receipts.urls')),
-)
+]
 
 

@@ -27,9 +27,9 @@
       <div class="flex items-center gap-3">
         <!-- Language Switcher -->
         <div class="flex items-center gap-1 text-xs">
-          <a href="/i18n/setlang/?next={{ request.path }}&language=uz" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">UZ</a>
-          <a href="/i18n/setlang/?next={{ request.path }}&language=uz-Cyrl" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">ЎЗ</a>
-          <a href="/i18n/setlang/?next={{ request.path }}&language=ru" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">RU</a>
+          <a href="{% url 'set_language' %}?next={{ request.path }}&language=uz" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">UZ</a>
+          <a href="{% url 'set_language' %}?next={{ request.path }}&language=uz-Cyrl" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">ЎЗ</a>
+          <a href="{% url 'set_language' %}?next={{ request.path }}&language=ru" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">RU</a>
         </div>
         
         <!-- Profile Icon (for consistency) -->
