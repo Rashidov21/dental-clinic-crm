@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}Dental CRM — Dashboard{% endblock %}
+{% block content %}
+<div class="min-h-screen flex">
+  <!-- Sidebar -->
+  <aside class="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/60 backdrop-blur">
+    <div class="h-16 flex items-center gap-2 px-4 border-b border-gray-200 dark:border-gray-800">
+      <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
+      <div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">Dental Clinic</div>
+        <div class="font-semibold">CRM</div>
+      </div>
+    </div>
+    <nav class="p-3 space-y-1 text-sm">
+      <a href="/dashboard/" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-200 font-medium">Dashboard</a>
+      <a href="/leads/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Leads</a>
+      <a href="/calendar/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Calendar</a>
+      <a href="/clients/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Clients & Database</a>
+      <a href="/payments/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Payments</a>
+      <a href="/book/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Book Appointment</a>
+      <a href="/doctor/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Doctor Dashboard</a>
+      <a href="/patient/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">Patient</a>
+    </nav>
+    <div class="mt-auto p-4 text-xs text-gray-500 dark:text-gray-400">© 2025 Dental Clinic</div>
+  </aside>
+
+  <!-- Main -->
+  <div class="flex-1 flex flex-col min-w-0">
+    <!-- Topbar -->
+    <header class="h-16 flex items-center justify-between px-4 md:px-6 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+      <div class="flex items-center gap-3 md:hidden">
+        <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
+        <div class="font-semibold">Dental CRM</div>
+      </div>
+      <div class="hidden md:block font-semibold">Dashboard</div>
+      <div class="flex items-center gap-3">
+        <span class="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">Dr. Emily Carter</span>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-blue-500"></div>
+      </div>
+    </header>
+
+    <!-- Content -->
+    <main class="p-4 md:p-6 space-y-6">
+      <!-- Stats -->
+      <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+          <div class="text-sm text-gray-500 dark:text-gray-400">Total Patients</div>
+          <div class="mt-2 text-2xl font-semibold">1,284</div>
+          <div class="mt-1 text-xs text-emerald-600">+4.1% this month</div>
+        </div>
+        <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+          <div class="text-sm text-gray-500 dark:text-gray-400">Today's Appointments</div>
+          <div class="mt-2 text-2xl font-semibold">18</div>
+          <div class="mt-1 text-xs text-blue-600">6 completed</div>
+        </div>
+        <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+          <div class="text-sm text-gray-500 dark:text-gray-400">Total Income</div>
+          <div class="mt-2 text-2xl font-semibold">$24,560</div>
+          <div class="mt-1 text-xs text-emerald-600">+$1,240 today</div>
+        </div>
+        <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+          <div class="text-sm text-gray-500 dark:text-gray-400">Leads this Month</div>
+          <div class="mt-2 text-2xl font-semibold">72</div>
+          <div class="mt-1 text-xs text-orange-600">12 pending</div>
+        </div>
+      </section>
+
+      <!-- Mini summaries -->
+      <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        <div class="lg:col-span-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">Upcoming Today</h2>
+            <a href="/calendar/" class="text-sm text-teal-700 dark:text-teal-300">View calendar</a>
+          </div>
+          <ul class="mt-3 divide-y divide-gray-200 dark:divide-gray-800">
+            <li class="py-3 flex items-center justify-between">
+              <div>
+                <div class="font-medium">John Miller — Cleaning</div>
+                <div class="text-xs text-gray-500">10:00 AM • Dr. Carter</div>
+              </div>
+              <span class="text-xs px-2 py-1 rounded bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-200">Room 2</span>
+            </li>
+            <li class="py-3 flex items-center justify-between">
+              <div>
+                <div class="font-medium">Sofia Perez — Whitening</div>
+                <div class="text-xs text-gray-500">11:30 AM • Dr. Lee</div>
+              </div>
+              <span class="text-xs px-2 py-1 rounded bg-orange-50 text-orange-700 dark:bg-orange-900/30 dark:text-orange-200">New</span>
+            </li>
+            <li class="py-3 flex items-center justify-between">
+              <div>
+                <div class="font-medium">Akira Tanaka — Implant Consult</div>
+                <div class="text-xs text-gray-500">1:00 PM • Dr. Patel</div>
+              </div>
+              <span class="text-xs px-2 py-1 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-200">Confirmed</span>
+            </li>
+          </ul>
+        </div>
+        <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
+          <h2 class="font-semibold">Leads Status</h2>
+          <div class="mt-3 space-y-3">
+            <div class="flex items-center justify-between text-sm">
+              <span>New</span>
+              <span class="font-medium">12</span>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span>Contacted</span>
+              <span class="font-medium">27</span>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span>Converted</span>
+              <span class="font-medium">33</span>
+            </div>
+            <div class="flex items-center justify-between text-sm">
+              <span>Lost</span>
+              <span class="font-medium">5</span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+{% endblock %}
+
+
