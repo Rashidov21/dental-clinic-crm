@@ -1,0 +1,144 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-14 20:02+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: uz-Cyrl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Dental CRM"
+msgstr "Тиш Шифохонаси CRM"
+
+msgid "Dashboard"
+msgstr "Бошқарув панели"
+
+msgid "Leads"
+msgstr "Мижозлар"
+
+msgid "Calendar"
+msgstr "Тақвим"
+
+msgid "Clients & Database"
+msgstr "Мижозлар ва маълумотлар базаси"
+
+msgid "Payments"
+msgstr "Тўловлар"
+
+msgid "Book Appointment"
+msgstr "Учрашувни брон қилиш"
+
+msgid "Doctor Dashboard"
+msgstr "Шифокор бошқарув панели"
+
+msgid "Patient"
+msgstr "Бемор"
+
+msgid "Profile"
+msgstr "Профил"
+
+msgid "Login"
+msgstr "Кириш"
+
+msgid "Logout"
+msgstr "Чиқиш"
+
+msgid "Sign in to your account"
+msgstr "Ҳисобингизга киринг"
+
+msgid "Access your dental clinic CRM dashboard"
+msgstr "Тиш шифохонаси CRM бошқарув панелига кириш"
+
+msgid "Username"
+msgstr "Фойдаланувчи номи"
+
+msgid "Password"
+msgstr "Парол"
+
+msgid "Enter your username"
+msgstr "Фойдаланувчи номингизни киритинг"
+
+msgid "Enter your password"
+msgstr "Паролингизни киритинг"
+
+msgid "Sign in"
+msgstr "Кириш"
+
+msgid "User Profile"
+msgstr "Фойдаланувчи профили"
+
+msgid "First Name"
+msgstr "Исм"
+
+msgid "Last Name"
+msgstr "Фамилия"
+
+msgid "Email"
+msgstr "Электрон почта"
+
+msgid "Update Profile"
+msgstr "Профилни янгилаш"
+
+msgid "Total Patients"
+msgstr "Жами беморлар"
+
+msgid "Today's Appointments"
+msgstr "Бутунги учрашувлар"
+
+msgid "Total Income"
+msgstr "Жами даромад"
+
+msgid "Leads this Month"
+msgstr "Бу ойдаги мижозлар"
+
+msgid "Upcoming Today"
+msgstr "Бутунги келажакдаги"
+
+msgid "View calendar"
+msgstr "Тақвимни кўриш"
+
+msgid "Leads Status"
+msgstr "Мижозлар ҳолати"
+
+msgid "New"
+msgstr "Янги"
+
+msgid "Contacted"
+msgstr "Боғланган"
+
+msgid "Converted"
+msgstr "Айлантирилган"
+
+msgid "Lost"
+msgstr "Йўқотилган"
+
+msgid "Successfully logged in!"
+msgstr "Муваффақиятли кирдингиз!"
+
+msgid "Invalid username or password."
+msgstr "Нотўғри фойдаланувчи номи ёки парол."
+
+msgid "You have been logged out."
+msgstr "Сиз тизимдан чиқдингиз."
+
+msgid "Profile updated successfully!"
+msgstr "Профил муваффақиятли янгиланди!"
+
+msgid "Lead created successfully!"
+msgstr "Мижоз муваффақиятли яратилди!"
+
+msgid "Lead updated successfully!"
+msgstr "Мижоз муваффақиятли янгиланди!"
+
+msgid "Lead deleted successfully!"
+msgstr "Мижоз муваффақиятли ўчирилди!"
