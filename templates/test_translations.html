@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load translation_tags %}
+{% block title %}Translation Test{% endblock %}
+{% block content %}
+<div class="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900">
+  <div class="max-w-4xl w-full p-8">
+    <h1 class="text-3xl font-bold mb-8 text-center">Translation Test</h1>
+    
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <!-- Uzbek Latin -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4 text-center">Uzbek Latin (uz)</h2>
+        <div class="space-y-2">
+          <p><strong>Dental CRM:</strong> {% trans "Dental CRM" %}</p>
+          <p><strong>Dashboard:</strong> {% trans "Dashboard" %}</p>
+          <p><strong>Login:</strong> {% trans "Login" %}</p>
+          <p><strong>Profile:</strong> {% trans "Profile" %}</p>
+          <p><strong>Total Patients:</strong> {% trans "Total Patients" %}</p>
+        </div>
+      </div>
+      
+      <!-- Uzbek Cyrillic -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4 text-center">Uzbek Cyrillic (uz-Cyrl)</h2>
+        <div class="space-y-2">
+          <p><strong>Dental CRM:</strong> {% trans "Dental CRM" %}</p>
+          <p><strong>Dashboard:</strong> {% trans "Dashboard" %}</p>
+          <p><strong>Login:</strong> {% trans "Login" %}</p>
+          <p><strong>Profile:</strong> {% trans "Profile" %}</p>
+          <p><strong>Total Patients:</strong> {% trans "Total Patients" %}</p>
+        </div>
+      </div>
+      
+      <!-- Russian -->
+      <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow">
+        <h2 class="text-xl font-semibold mb-4 text-center">Russian (ru)</h2>
+        <div class="space-y-2">
+          <p><strong>Dental CRM:</strong> {% trans "Dental CRM" %}</p>
+          <p><strong>Dashboard:</strong> {% trans "Dashboard" %}</p>
+          <p><strong>Login:</strong> {% trans "Login" %}</p>
+          <p><strong>Profile:</strong> {% trans "Profile" %}</p>
+          <p><strong>Total Patients:</strong> {% trans "Total Patients" %}</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-8 text-center">
+      <p class="text-gray-600 dark:text-gray-400">
+        Note: The translations shown will depend on the current language setting.
+        Use the language switcher in the header to change languages.
+      </p>
+    </div>
+  </div>
+</div>
+{% endblock %}
