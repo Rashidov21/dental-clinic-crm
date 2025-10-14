@@ -5,6 +5,7 @@ from django.conf.urls.i18n import i18n_patterns
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
+    path('test-translations/', TemplateView.as_view(template_name='test_translations.html'), name='test_translations'),
     path('', include('accounts.urls')),
 ]
 
