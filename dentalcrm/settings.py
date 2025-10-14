@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'modeltranslation',
     'leads',
     'patients',
     'appointments',
@@ -26,6 +27,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -62,10 +64,18 @@ DATABASES = {
 
 AUTH_PASSWORD_VALIDATORS = []
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'uz'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
+
+LANGUAGES = [
+    ('uz', 'Uzbek (Latin)'),
+    ('uz-Cyrl', 'Uzbek (Cyrillic)'),
+    ('ru', 'Russian'),
+]
+
+LOCALE_PATHS = [BASE_DIR / 'locale']
 
 STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'

@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Dental CRM — Doctor Dashboard{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Dental CRM — Doctor Dashboard" %}{% endblock %}
 {% block content %}
 <div class="min-h-screen flex">
   <aside class="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/60 backdrop-blur">
@@ -29,7 +30,7 @@
         <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
         <div class="font-semibold">Dental CRM</div>
       </div>
-      <div class="hidden md:block font-semibold">Doctor Dashboard</div>
+      <div class="hidden md:block font-semibold">{% trans "Doctor Dashboard" %}</div>
       <div class="flex items-center gap-3">
         <span class="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">Dr. Emily Carter</span>
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-blue-500"></div>
@@ -38,8 +39,8 @@
 
     <main class="p-4 md:p-6 space-y-4">
       <div>
-        <h1 class="text-lg font-semibold">Today's Appointments</h1>
-        <p class="text-sm text-gray-500">Mark completed and generate receipts</p>
+        <h1 class="text-lg font-semibold">{% trans "Today's Appointments" %}</h1>
+        <p class="text-sm text-gray-500">{% trans "Mark completed and generate receipts" %}</p>
       </div>
 
       <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl divide-y divide-gray-200 dark:divide-gray-800">
@@ -54,7 +55,7 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <a href="/receipt/page/" class="px-3 py-2 rounded-lg bg-teal-600 text-white text-sm">Generate Receipt</a>
+            <a href="/receipt/page/" class="px-3 py-2 rounded-lg bg-teal-600 text-white text-sm">{% trans "Generate Receipt" %}</a>
           </div>
         </div>
 
@@ -69,7 +70,7 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <a href="/receipt/page/" class="px-3 py-2 rounded-lg bg-teal-600 text-white text-sm">Generate Receipt</a>
+            <a href="/receipt/page/" class="px-3 py-2 rounded-lg bg-teal-600 text-white text-sm">{% trans "Generate Receipt" %}</a>
           </div>
         </div>
       </div>

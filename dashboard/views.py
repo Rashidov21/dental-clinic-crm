@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.db import models
 from django.utils.timezone import localdate
 from patients.models import Patient
 from appointments.models import Appointment

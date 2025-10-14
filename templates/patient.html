@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Dental CRM — Patient{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Dental CRM — Patient" %}{% endblock %}
 {% block content %}
 <div class="min-h-screen flex">
   <aside class="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/60 backdrop-blur">
@@ -29,7 +30,7 @@
         <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
         <div class="font-semibold">Dental CRM</div>
       </div>
-      <div class="hidden md:block font-semibold">Patient</div>
+      <div class="hidden md:block font-semibold">{% trans "Patient" %}</div>
       <div class="flex items-center gap-3">
         <span class="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">Dr. Emily Carter</span>
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-blue-500"></div>
@@ -47,8 +48,8 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <a href="#" class="px-3 py-2 rounded-lg bg-teal-600 text-white text-sm">Add Treatment</a>
-            <a href="#" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm">Add Note</a>
+            <a href="#" class="px-3 py-2 rounded-lg bg-teal-600 text-white text-sm">{% trans "Add Treatment" %}</a>
+            <a href="#" class="px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm">{% trans "Add Note" %}</a>
           </div>
         </div>
         <div class="mt-3 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
@@ -61,7 +62,7 @@
 
       <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden">
         <div class="p-4 flex items-center justify-between">
-          <div class="font-semibold">Treatment History</div>
+          <div class="font-semibold">{% trans "Treatment History" %}</div>
           <div class="text-xs text-gray-500">Total Spent: $640</div>
         </div>
         <div class="overflow-x-auto">
@@ -100,8 +101,8 @@
 
       <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
         <div class="flex items-center justify-between">
-          <div class="font-semibold">Notes</div>
-          <a href="#" class="text-sm text-teal-700">Add</a>
+          <div class="font-semibold">{% trans "Notes" %}</div>
+          <a href="#" class="text-sm text-teal-700">{% trans "Add" %}</a>
         </div>
         <ul class="mt-3 space-y-3 text-sm">
           <li class="p-3 rounded-lg bg-gray-50 dark:bg-gray-900/60">

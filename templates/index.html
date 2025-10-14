@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% block title %}Dental CRM — Dashboard{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Dental CRM — Dashboard" %}{% endblock %}
 {% block content %}
 <div class="min-h-screen flex">
   <!-- Sidebar -->
@@ -32,7 +33,7 @@
         <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
         <div class="font-semibold">Dental CRM</div>
       </div>
-      <div class="hidden md:block font-semibold">Dashboard</div>
+      <div class="hidden md:block font-semibold">{% trans "Dashboard" %}</div>
       <div class="flex items-center gap-3">
         <span class="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">Dr. Emily Carter</span>
         <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-blue-500"></div>
@@ -44,22 +45,22 @@
       <!-- Stats -->
       <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-          <div class="text-sm text-gray-500 dark:text-gray-400">Total Patients</div>
+          <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Total Patients" %}</div>
           <div class="mt-2 text-2xl font-semibold">1,284</div>
           <div class="mt-1 text-xs text-emerald-600">+4.1% this month</div>
         </div>
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-          <div class="text-sm text-gray-500 dark:text-gray-400">Today's Appointments</div>
+          <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Today's Appointments" %}</div>
           <div class="mt-2 text-2xl font-semibold">18</div>
           <div class="mt-1 text-xs text-blue-600">6 completed</div>
         </div>
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-          <div class="text-sm text-gray-500 dark:text-gray-400">Total Income</div>
+          <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Total Income" %}</div>
           <div class="mt-2 text-2xl font-semibold">$24,560</div>
           <div class="mt-1 text-xs text-emerald-600">+$1,240 today</div>
         </div>
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-          <div class="text-sm text-gray-500 dark:text-gray-400">Leads this Month</div>
+          <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Leads this Month" %}</div>
           <div class="mt-2 text-2xl font-semibold">72</div>
           <div class="mt-1 text-xs text-orange-600">12 pending</div>
         </div>
@@ -69,8 +70,8 @@
       <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <div class="lg:col-span-2 bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
           <div class="flex items-center justify-between">
-            <h2 class="font-semibold">Upcoming Today</h2>
-            <a href="/calendar/" class="text-sm text-teal-700 dark:text-teal-300">View calendar</a>
+            <h2 class="font-semibold">{% trans "Upcoming Today" %}</h2>
+            <a href="/calendar/" class="text-sm text-teal-700 dark:text-teal-300">{% trans "View calendar" %}</a>
           </div>
           <ul class="mt-3 divide-y divide-gray-200 dark:divide-gray-800">
             <li class="py-3 flex items-center justify-between">
@@ -97,7 +98,7 @@
           </ul>
         </div>
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-          <h2 class="font-semibold">Leads Status</h2>
+          <h2 class="font-semibold">{% trans "Leads Status" %}</h2>
           <div class="mt-3 space-y-3">
             <div class="flex items-center justify-between text-sm">
               <span>New</span>
