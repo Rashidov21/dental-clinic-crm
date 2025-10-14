@@ -1,44 +1,37 @@
-from django.http import JsonResponse, HttpResponseNotAllowed
-from django.views.decorators.csrf import csrf_exempt
-from django.forms.models import model_to_dict
-from django.shortcuts import get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib import messages
 from .models import Patient
-import json
 
 
 def patient_list(request):
-    if request.method == 'GET':
-        patients = list(Patient.objects.all().order_by('full_name').values())
-        return JsonResponse({'results': patients})
-    return HttpResponseNotAllowed(['GET'])
+    patients = Patient.objects.all().order_by('full_name')
+    return render(request, 'patients/patient_list.html', {'patients': patients})
 
 
 def patient_detail(request, pk: int):
-    if request.method != 'GET':
-        return HttpResponseNotAllowed(['GET'])
     patient = get_object_or_404(Patient, pk=pk)
-    return JsonResponse(model_to_dict(patient))
+    return render(request, 'patients/patient_detail.html', {'patient': patient})
 
 
-@csrf_exempt
 def patient_update(request, pk: int):
-    if request.method not in ['POST', 'PUT', 'PATCH']:
-        return HttpResponseNotAllowed(['POST', 'PUT', 'PATCH'])
     patient = get_object_or_404(Patient, pk=pk)
-    data = json.loads(request.body or '{}')
-    for field in ['full_name', 'phone', 'email', 'birth_date', 'address', 'notes']:
-        if field in data:
-            setattr(patient, field, data[field])
-    patient.save()
-    return JsonResponse(model_to_dict(patient))
+    if request.method == 'POST':
+        patient.full_name = request.POST.get('full_name', patient.full_name)
+        patient.phone = request.POST.get('phone', patient.phone)
+        patient.email = request.POST.get('email', patient.email)
+        patient.birth_date = request.POST.get('birth_date', patient.birth_date)
+        patient.address = request.POST.get('address', patient.address)
+        patient.notes = request.POST.get('notes', patient.notes)
+        patient.save()
+        messages.success(request, 'Patient updated successfully!')
+        return redirect('patient_detail', pk=pk)
+    return render(request, 'patients/patient_form.html', {'patient': patient})
 
 
-@csrf_exempt
 def patient_delete(request, pk: int):
-    if request.method not in ['POST', 'DELETE']:
-        return HttpResponseNotAllowed(['POST', 'DELETE'])
     patient = get_object_or_404(Patient, pk=pk)
     patient.delete()
-    return JsonResponse({'deleted': True})
+    messages.success(request, 'Patient deleted successfully!')
+    return redirect('patient_list')
 
 

@@ -1,6 +1,6 @@
-from django.http import JsonResponse
-from django.db import models
+from django.shortcuts import render
 from django.utils.timezone import localdate
+from django.db import models
 from patients.models import Patient
 from appointments.models import Appointment
 from payments.models import Payment
@@ -15,11 +15,13 @@ def dashboard_summary(request):
     # leads this calendar month
     first_day = today.replace(day=1)
     leads_this_month = Lead.objects.filter(created_at__date__gte=first_day).count()
-    return JsonResponse({
+    
+    context = {
         'total_patients': total_patients,
         'total_appointments_today': total_appointments_today,
         'total_income': float(total_income),
         'leads_this_month': leads_this_month,
-    })
+    }
+    return render(request, 'index.html', context)
 
 

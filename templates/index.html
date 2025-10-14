@@ -35,8 +35,31 @@
       </div>
       <div class="hidden md:block font-semibold">{% trans "Dashboard" %}</div>
       <div class="flex items-center gap-3">
-        <span class="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">Dr. Emily Carter</span>
-        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-blue-500"></div>
+        <!-- Language Switcher -->
+        <div class="flex items-center gap-1 text-xs">
+          <a href="/i18n/setlang/?next={{ request.path }}&language=uz" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">UZ</a>
+          <a href="/i18n/setlang/?next={{ request.path }}&language=uz-Cyrl" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">ЎЗ</a>
+          <a href="/i18n/setlang/?next={{ request.path }}&language=ru" class="px-2 py-1 rounded hover:bg-gray-100 dark:hover:bg-gray-800">RU</a>
+        </div>
+        
+        <!-- Profile Dropdown -->
+        {% if user.is_authenticated %}
+          <div class="relative">
+            <button onclick="toggleDropdown()" class="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700">
+              <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-blue-500"></div>
+              <span class="text-sm hidden sm:block">{{ user.get_full_name|default:user.username }}</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </button>
+            <div id="profileDropdown" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 z-50">
+              <a href="{% url 'profile' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{% trans "Profile" %}</a>
+              <a href="{% url 'logout' %}" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">{% trans "Logout" %}</a>
+            </div>
+          </div>
+        {% else %}
+          <a href="{% url 'login' %}" class="px-3 py-2 rounded-lg bg-teal-600 text-white text-sm hover:bg-teal-700">{% trans "Login" %}</a>
+        {% endif %}
       </div>
     </header>
 
@@ -122,6 +145,21 @@
     </main>
   </div>
 </div>
+
+<script>
+function toggleDropdown() {
+  const dropdown = document.getElementById('profileDropdown');
+  dropdown.classList.toggle('hidden');
+}
+
+document.addEventListener('click', function(event) {
+  const dropdown = document.getElementById('profileDropdown');
+  const button = event.target.closest('button');
+  if (!button || !button.onclick) {
+    dropdown.classList.add('hidden');
+  }
+});
+</script>
 {% endblock %}
 
 
