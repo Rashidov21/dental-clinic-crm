@@ -38,7 +38,7 @@
           {% if is_payment_receipt %}
             {{ receipt_data.patient.full_name }}
           {% else %}
-            John Miller
+            No patient
           {% endif %}
         </div>
         <div class="text-gray-500 dark:text-gray-400">{% trans "Phone" %}</div>
@@ -46,7 +46,7 @@
           {% if is_payment_receipt %}
             {{ receipt_data.patient.phone }}
           {% else %}
-            (555) 123-4567
+            No phone
           {% endif %}
         </div>
       </div>
@@ -58,7 +58,13 @@
           <div class="text-gray-700 dark:text-gray-300">{{ receipt_data.status }}</div>
         {% else %}
           <div class="text-gray-500 dark:text-gray-400">{% trans "Doctor" %}</div>
-          <div class="font-medium text-gray-900 dark:text-white">Dr. Emily Carter</div>
+          <div class="font-medium text-gray-900 dark:text-white">
+            {% if is_payment_receipt %}
+            {{ receipt_data.doctor.name }}
+          {% else %}
+            No patient
+          {% endif %}
+          </div>
           <div class="text-gray-500 dark:text-gray-400">{% trans "Appointment" %}</div>
           <div class="text-gray-700 dark:text-gray-300">10:00 AM — {% trans "Cleaning" %}</div>
         {% endif %}
