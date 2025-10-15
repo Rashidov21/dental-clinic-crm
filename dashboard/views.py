@@ -32,3 +32,55 @@ def dashboard_summary(request):
     return render(request, 'index.html', context)
 
 
+def doctor_dashboard(request):
+    """Doctor dashboard with doctor-specific information"""
+    try:
+        today = localdate()
+        
+        # Get all active doctors
+        doctors = Doctor.objects.filter(is_active=True).order_by('name')
+        
+        # Get today's appointments
+        today_appointments = Appointment.objects.filter(date=today).order_by('time')
+        
+        # Get upcoming appointments (next 7 days)
+        from datetime import timedelta
+        next_week = today + timedelta(days=7)
+        upcoming_appointments = Appointment.objects.filter(
+            date__range=[today, next_week]
+        ).order_by('date', 'time')
+        
+        # Get recent patients (last 30 days)
+        thirty_days_ago = today - timedelta(days=30)
+        recent_patients = Patient.objects.filter(
+            created_at__date__gte=thirty_days_ago
+        ).order_by('-created_at')[:10]
+        
+        # Get doctor statistics
+        total_appointments = Appointment.objects.count()
+        total_patients = Patient.objects.count()
+        
+        context = {
+            'doctors': doctors,
+            'today_appointments': today_appointments,
+            'upcoming_appointments': upcoming_appointments,
+            'recent_patients': recent_patients,
+            'total_appointments': total_appointments,
+            'total_patients': total_patients,
+            'today': today,
+        }
+        return render(request, 'doctor-dashboard.html', context)
+    except Exception as e:
+        # Fallback context in case of errors
+        context = {
+            'doctors': [],
+            'today_appointments': [],
+            'upcoming_appointments': [],
+            'recent_patients': [],
+            'total_appointments': 0,
+            'total_patients': 0,
+            'today': localdate(),
+        }
+        return render(request, 'doctor-dashboard.html', context)
+
+

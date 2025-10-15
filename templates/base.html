@@ -197,6 +197,30 @@
         });
       }
       
+      // Modal System
+      function showModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.style.display = 'flex';
+          document.body.style.overflow = 'hidden';
+          
+          // Close on outside click
+          modal.onclick = (e) => {
+            if (e.target === modal) {
+              closeModal(modalId);
+            }
+          };
+        }
+      }
+      
+      function closeModal(modalId) {
+        const modal = document.getElementById(modalId);
+        if (modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      }
+      
       // Show Django messages as toasts
       document.addEventListener('DOMContentLoaded', function() {
         // Check for Django messages in the template

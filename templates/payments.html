@@ -21,6 +21,7 @@
       <a href="/book/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Book Appointment" %}</a>
       <a href="/doctor/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Doctor Dashboard" %}</a>
       <a href="/patient/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Patient" %}</a>
+      <a href="/settings/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Settings" %}</a>
     </nav>
     <div class="mt-auto p-4 text-xs text-gray-500 dark:text-gray-400">© 2025 {% trans "Dental Clinic" %}</div>
   </aside>
@@ -45,42 +46,43 @@
           <form class="mt-3 space-y-3 text-sm">
             <div>
               <label class="block text-sm mb-1">{% trans "Patient" %}</label>
-              <select class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
-                <option>Alex Johnson</option>
-                <option>Maria Gomez</option>
-                <option>Noah Chen</option>
+              <select name="patient" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
+                <option value="">{% trans "Select Patient" %}</option>
+                {% for patient in patients %}
+                <option value="{{ patient.id }}">{{ patient.full_name }}</option>
+                {% endfor %}
               </select>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-sm mb-1">{% trans "Amount" %}</label>
-                <input type="number" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="0.00" />
+                <input type="number" name="amount" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="0.00" />
               </div>
               <div>
                 <label class="block text-sm mb-1">{% trans "Type" %}</label>
-                <select class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
-                  <option>{% trans "Cash" %}</option>
-                  <option>{% trans "Card" %}</option>
-                  <option>{% trans "Transfer" %}</option>
+                <select name="payment_type" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
+                  <option value="cash">{% trans "Cash" %}</option>
+                  <option value="card">{% trans "Card" %}</option>
+                  <option value="online">{% trans "Online" %}</option>
                 </select>
               </div>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
                 <label class="block text-sm mb-1">{% trans "Date" %}</label>
-                <input type="date" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" />
+                <input type="date" name="date" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" />
               </div>
               <div>
                 <label class="block text-sm mb-1">{% trans "Status" %}</label>
-                <select class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
-                  <option>{% trans "Paid" %}</option>
-                  <option>{% trans "Unpaid" %}</option>
+                <select name="status" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2">
+                  <option value="paid">{% trans "Paid" %}</option>
+                  <option value="pending">{% trans "Pending" %}</option>
                 </select>
               </div>
             </div>
             <div>
               <label class="block text-sm mb-1">{% trans "Notes" %}</label>
-              <textarea rows="3" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="{% trans 'Optional notes...' %}"></textarea>
+              <textarea name="notes" rows="3" class="w-full rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="{% trans 'Optional notes...' %}"></textarea>
             </div>
             <div class="pt-2">
               <button type="button" onclick="savePayment()" class="w-full sm:w-auto px-4 py-2 rounded-lg bg-teal-600 text-white hover:bg-teal-700">{% trans "Save Payment" %}</button>
@@ -105,27 +107,23 @@
                 </tr>
               </thead>
               <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+                {% for payment in payments %}
                 <tr>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">Alex Johnson</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">$120.00</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">{% trans "Card" %}</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">Oct 13, 2025</td>
-                  <td class="px-4 py-3"><span class="text-xs px-2 py-1 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-200">{% trans "Paid" %}</span></td>
+                  <td class="px-4 py-3 text-gray-900 dark:text-white">{{ payment.patient.full_name }}</td>
+                  <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">${{ payment.amount }}</td>
+                  <td class="px-4 py-3 text-gray-900 dark:text-white">{{ payment.get_payment_type_display }}</td>
+                  <td class="px-4 py-3 text-gray-900 dark:text-white">{{ payment.date|date:'M d, Y' }}</td>
+                  <td class="px-4 py-3">
+                    <span class="text-xs px-2 py-1 rounded {% if payment.status == 'paid' %}bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-200{% else %}bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-200{% endif %}">
+                      {{ payment.get_status_display }}
+                    </span>
+                  </td>
                 </tr>
+                {% empty %}
                 <tr>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">Maria Gomez</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">$220.00</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">{% trans "Cash" %}</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">Oct 12, 2025</td>
-                  <td class="px-4 py-3"><span class="text-xs px-2 py-1 rounded bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-200">{% trans "Unpaid" %}</span></td>
+                  <td colspan="5" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">{% trans "No payments found" %}</td>
                 </tr>
-                <tr>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">Noah Chen</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">$300.00</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">{% trans "Transfer" %}</td>
-                  <td class="px-4 py-3 text-gray-900 dark:text-white">Oct 11, 2025</td>
-                  <td class="px-4 py-3"><span class="text-xs px-2 py-1 rounded bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-200">{% trans "Paid" %}</span></td>
-                </tr>
+                {% endfor %}
               </tbody>
             </table>
           </div>

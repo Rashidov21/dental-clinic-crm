@@ -21,6 +21,7 @@
       <a href="/book/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Book Appointment" %}</a>
       <a href="/doctor/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Doctor Dashboard" %}</a>
       <a href="/patient/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Patient" %}</a>
+      <a href="/settings/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Settings" %}</a>
     </nav>
     <div class="mt-auto p-4 text-xs text-gray-500 dark:text-gray-400">© 2025 {% trans "Dental Clinic" %}</div>
   </aside>
@@ -71,16 +72,20 @@
             </thead>
             <tbody id="clientsTableBody" class="divide-y divide-gray-200 dark:divide-gray-800">
               {% for patient in patients %}
-              <tr class="client-row" data-name="Alex Johnson" data-phone="(555) 123-4567" data-doctor="Dr. Lee" data-date="2025-09-28">
-                <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">Alex Johnson</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">(555) 123-4567</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Dr. Lee</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">Sep 28, 2025</td>
+              <tr class="client-row" data-name="{{ patient.full_name }}" data-phone="{{ patient.phone }}" data-doctor="{% if patient.appointments.first.doctor %}{{ patient.appointments.first.doctor.name }}{% else %}{% trans 'No Doctor' %}{% endif %}" data-date="{{ patient.appointments.first.date|date:'Y-m-d'|default:'N/A' }}">
+                <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">{{ patient.full_name }}</td>
+                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ patient.phone }}</td>
+                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% if patient.appointments.first.doctor %}{{ patient.appointments.first.doctor.name }}{% else %}{% trans 'No Doctor' %}{% endif %}</td>
+                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ patient.appointments.first.date|date:'M d, Y'|default:'N/A' }}</td>
                 <td class="px-4 py-3 text-right space-x-2">
-                  <a href="/patient/page/" class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "View History" %}</a>
-                  <button onclick="showModal('addVisit', 'Alex Johnson')" class="px-3 py-1 rounded bg-teal-600 text-white hover:bg-teal-700 text-xs">{% trans "Add Visit" %}</button>
-                  <button onclick="showModal('editClient', 'Alex Johnson')" class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "Edit Info" %}</button>
+                  <a href="/patient/page/{{ patient.id }}/" class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "View History" %}</a>
+                  <button onclick="showModal('addVisit', '{{ patient.full_name|escapejs }}')" class="px-3 py-1 rounded bg-teal-600 text-white hover:bg-teal-700 text-xs">{% trans "Add Visit" %}</button>
+                  <button onclick="showModal('editClient', '{{ patient.full_name|escapejs }}')" class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "Edit Info" %}</button>
                 </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="5" class="px-4 py-8 text-center text-gray-500 dark:text-gray-400">{% trans "No patients found" %}</td>
               </tr>
               {% endfor %}
             </tbody>

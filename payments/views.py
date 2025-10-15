@@ -42,6 +42,6 @@ def payment_create(request):
         )
         messages.success(request, 'Payment created successfully!')
         return redirect('payment_list')
-    return render(request, 'payments/payment_form.html')
+    return redirect('payments_page')
 
 

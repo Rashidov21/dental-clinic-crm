@@ -12,7 +12,7 @@ def appointment_list(request):
         qs = qs.filter(patient_id=patient_id)
     if status:
         qs = qs.filter(status=status)
-    return render(request, 'appointments/appointment_list.html', {'appointments': qs})
+    return render(request, 'calendar.html', {'appointments': qs})
 
 
 def appointment_create(request):
@@ -74,15 +74,15 @@ def appointment_update(request, pk: int):
                 services_done=appt.notes or appt.service,
             )
         messages.success(request, 'Appointment updated successfully!')
-        return redirect('appointment_list')
-    return render(request, 'appointments/appointment_form.html', {'appointment': appt})
+        return redirect('book_page')
+    return redirect('book_page')
 
 
 def appointment_delete(request, pk: int):
     appt = get_object_or_404(Appointment, pk=pk)
     appt.delete()
     messages.success(request, 'Appointment deleted successfully!')
-    return redirect('appointment_list')
+    return redirect('book_page')
 
 
 def book_page(request):

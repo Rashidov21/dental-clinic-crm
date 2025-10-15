@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
 from appointments import views as appointment_views
+from dashboard import views as dashboard_views
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
@@ -19,15 +20,13 @@ urlpatterns = [
     path('clients/', include('patients.urls')),
     path('payments/page/', include('payments.urls')),
     path('book/', appointment_views.book_page, name='book_page'),
-    path('doctor/', TemplateView.as_view(template_name='doctor-dashboard.html'), name='doctor_page'),
+    path('doctor/', dashboard_views.doctor_dashboard, name='doctor_page'),
     path('patient/page/', include('patients.urls')),
     path('receipt/page/', TemplateView.as_view(template_name='receipt.html'), name='receipt_page'),
     path('settings/', include('settings.urls')),
 
     # API endpoints
-    path('patients/', include('patients.urls')),
     path('appointments/', include('appointments.urls')),
-    path('payments/', include('payments.urls')),
     path('receipts/', include('receipts.urls')),
     
     # Book appointment endpoints

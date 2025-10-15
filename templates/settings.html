@@ -2,19 +2,53 @@
 {% load i18n %}
 {% load translation_tags %}
 
-{% block title %}{% trans "Settings" %}{% endblock %}
+{% block title %}{% trans "Dental CRM — Settings" %}{% endblock %}
 
 {% block content %}
-<div class="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <!-- Header -->
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 dark:text-white">{% trans "Settings" %}</h1>
-            <p class="mt-2 text-gray-600 dark:text-gray-400">{% trans "Manage doctors and treatments" %}</p>
-        </div>
+<div class="min-h-screen flex">
+  <aside class="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/60 backdrop-blur">
+    <div class="h-16 flex items-center gap-2 px-4 border-b border-gray-200 dark:border-gray-800">
+      <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
+      <div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Dental Clinic" %}</div>
+        <div class="font-semibold">{% trans "CRM" %}</div>
+      </div>
+    </div>
+    <nav class="p-3 space-y-1 text-sm">
+      <a href="/dashboard/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Dashboard" %}</a>
+      <a href="/leads/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Leads" %}</a>
+      <a href="/calendar/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Calendar" %}</a>
+      <a href="/clients/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Clients & Database" %}</a>
+      <a href="/payments/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Payments" %}</a>
+      <a href="/book/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Book Appointment" %}</a>
+      <a href="/doctor/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Doctor Dashboard" %}</a>
+      <a href="/patient/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Patient" %}</a>
+      <a href="/settings/" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-200 font-medium">{% trans "Settings" %}</a>
+    </nav>
+    <div class="mt-auto p-4 text-xs text-gray-500 dark:text-gray-400">© 2025 {% trans "Dental Clinic" %}</div>
+  </aside>
 
-        <!-- Doctors Section -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow mb-8">
+  <div class="flex-1 flex flex-col min-w-0">
+    <header class="h-16 flex items-center justify-between px-4 md:px-6 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+      <div class="flex items-center gap-3 md:hidden">
+        <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
+        <div class="font-semibold">{% trans "Dental CRM" %}</div>
+      </div>
+      <div class="hidden md:block font-semibold">{% trans "Settings" %}</div>
+      <div class="flex items-center gap-3">
+        <span class="text-sm text-gray-500 dark:text-gray-400 hidden sm:block">{% trans "Settings" %}</span>
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-teal-500 to-blue-500"></div>
+      </div>
+    </header>
+
+    <main class="p-4 md:p-6 space-y-6">
+      <div>
+        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">{% trans "Settings" %}</h1>
+        <p class="mt-2 text-gray-600 dark:text-gray-400">{% trans "Manage doctors and treatments" %}</p>
+      </div>
+
+      <!-- Doctors Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{% trans "Doctors" %}</h2>
@@ -61,8 +95,8 @@
             </div>
         </div>
 
-        <!-- Treatments Section -->
-        <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
+      <!-- Treatments Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg shadow">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <div class="flex justify-between items-center">
                     <h2 class="text-xl font-semibold text-gray-900 dark:text-white">{% trans "Treatments" %}</h2>
@@ -112,8 +146,8 @@
 </div>
 
 <!-- Add Doctor Modal -->
-<div id="addDoctor" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
-    <div class="flex items-center justify-center min-h-screen p-4">
+<div id="addDoctor" class="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center" style="display:none">
+    <div class="p-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Add Doctor" %}</h3>
@@ -152,8 +186,8 @@
 </div>
 
 <!-- Edit Doctor Modal -->
-<div id="editDoctor" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
-    <div class="flex items-center justify-center min-h-screen p-4">
+<div id="editDoctor" class="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center" style="display:none">
+    <div class="p-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Edit Doctor" %}</h3>
@@ -192,8 +226,8 @@
 </div>
 
 <!-- Add Treatment Modal -->
-<div id="addTreatment" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
-    <div class="flex items-center justify-center min-h-screen p-4">
+<div id="addTreatment" class="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center" style="display:none">
+    <div class="p-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Add Treatment" %}</h3>
@@ -232,8 +266,8 @@
 </div>
 
 <!-- Edit Treatment Modal -->
-<div id="editTreatment" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
-    <div class="flex items-center justify-center min-h-screen p-4">
+<div id="editTreatment" class="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center" style="display:none">
+    <div class="p-4">
         <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-md w-full">
             <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                 <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Edit Treatment" %}</h3>
@@ -268,7 +302,9 @@
                 </div>
             </form>
         </div>
-    </div>
+      </div>
+    </main>
+  </div>
 </div>
 
 <script>

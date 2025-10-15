@@ -37,6 +37,6 @@ def patient_delete(request, pk: int):
     patient = get_object_or_404(Patient, pk=pk)
     patient.delete()
     messages.success(request, 'Patient deleted successfully!')
-    return redirect('patient_list')
+    return redirect('clients')
 
 
