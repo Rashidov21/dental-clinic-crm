@@ -1,5 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
+from django.utils import timezone
+from datetime import datetime, timedelta
 from .models import Lead
 from settings.models import Doctor
 
@@ -7,7 +9,51 @@ from settings.models import Doctor
 def lead_list(request):
     leads = Lead.objects.all().order_by('-created_at')
     doctors = Doctor.objects.filter(is_active=True).order_by('name')
-    return render(request, 'leads.html', {'leads': leads, 'doctors': doctors})
+    
+    # Get filter parameters
+    status_filter = request.GET.get('status', '')
+    time_filter = request.GET.get('time', '')
+    
+    # Apply status filter
+    if status_filter:
+        leads = leads.filter(status=status_filter)
+    
+    # Apply time filters
+    now = timezone.now()
+    today = now.date()
+    
+    if time_filter == 'today':
+        leads = leads.filter(created_at__date=today)
+    elif time_filter == 'week':
+        week_ago = today - timedelta(days=7)
+        leads = leads.filter(created_at__date__gte=week_ago)
+    elif time_filter == 'month':
+        month_ago = today - timedelta(days=30)
+        leads = leads.filter(created_at__date__gte=month_ago)
+    
+    # Get filter counts for display
+    total_leads = Lead.objects.count()
+    today_count = Lead.objects.filter(created_at__date=today).count()
+    week_count = Lead.objects.filter(created_at__date__gte=today - timedelta(days=7)).count()
+    month_count = Lead.objects.filter(created_at__date__gte=today - timedelta(days=30)).count()
+    
+    # Status counts
+    status_counts = {}
+    for status_choice in Lead.STATUS_CHOICES:
+        status_counts[status_choice[0]] = Lead.objects.filter(status=status_choice[0]).count()
+    
+    context = {
+        'leads': leads,
+        'doctors': doctors,
+        'status_filter': status_filter,
+        'time_filter': time_filter,
+        'total_leads': total_leads,
+        'today_count': today_count,
+        'week_count': week_count,
+        'month_count': month_count,
+        'status_counts': status_counts,
+    }
+    return render(request, 'leads.html', context)
 
 
 def lead_create(request):
