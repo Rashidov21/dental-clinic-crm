@@ -188,6 +188,98 @@ document.addEventListener('click', function(event) {
   }
 });
 </script>
+
+<!-- Add Patient Modal -->
+<div id="addPatient" class="fixed inset-0 bg-gray-600 bg-opacity-50 z-50 flex items-center justify-center" style="display:none">
+  <div class="p-4">
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-2xl w-full">
+      <div class="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div class="flex items-center justify-between">
+          <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Add New Patient & Book Appointment" %}</h3>
+          <button onclick="closeModal('addPatient')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <form method="post" action="/patients/create/" class="space-y-4">
+        {% csrf_token %}
+        <div class="px-6 py-4 space-y-4">
+          <!-- Patient Information -->
+          <div class="border-b border-gray-200 dark:border-gray-700 pb-4">
+            <h4 class="text-md font-medium text-gray-900 dark:text-white mb-3">{% trans "Patient Information" %}</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Full Name" %} *</label>
+                <input type="text" name="full_name" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Phone" %} *</label>
+                <input type="tel" name="phone" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Email" %}</label>
+                <input type="email" name="email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Birth Date" %}</label>
+                <input type="date" name="birth_date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Address" %}</label>
+                <textarea name="address" rows="2" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white"></textarea>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Appointment Information -->
+          <div>
+            <h4 class="text-md font-medium text-gray-900 dark:text-white mb-3">{% trans "Book Appointment" %}</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Doctor" %} *</label>
+                <select name="doctor" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                  <option value="">{% trans "Select Doctor" %}</option>
+                  {% for doctor in doctors %}
+                  <option value="{{ doctor.id }}">{{ doctor.name }} - {{ doctor.specialization }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Treatment" %} *</label>
+                <select name="treatment" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+                  <option value="">{% trans "Select Treatment" %}</option>
+                  {% for treatment in treatments %}
+                  <option value="{{ treatment.id }}">{{ treatment.name }} - ${{ treatment.price }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Date" %} *</label>
+                <input type="date" name="date" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Time" %} *</label>
+                <input type="time" name="time" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              </div>
+              <div class="md:col-span-2">
+                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Notes" %}</label>
+                <textarea name="notes" rows="2" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white" placeholder="{% trans 'Any special notes or requirements...' %}"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="px-6 py-4 bg-gray-50 dark:bg-gray-700 flex justify-end space-x-3">
+          <button type="button" onclick="closeModal('addPatient')" class="px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors">{% trans "Cancel" %}</button>
+          <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">{% trans "Add Patient & Book Appointment" %}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}
 
 

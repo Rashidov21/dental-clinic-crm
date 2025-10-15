@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Patient
 from settings.models import Doctor, Treatment
+from appointments.models import Appointment
 
 
 def patient_list(request):
@@ -38,5 +39,64 @@ def patient_delete(request, pk: int):
     patient.delete()
     messages.success(request, 'Patient deleted successfully!')
     return redirect('clients')
+
+
+def patient_create_with_booking(request):
+    """Create a new patient and book an appointment"""
+    if request.method == 'POST':
+        try:
+            # Create patient
+            patient = Patient.objects.create(
+                full_name=request.POST.get('full_name', ''),
+                phone=request.POST.get('phone', ''),
+                email=request.POST.get('email', ''),
+                birth_date=request.POST.get('birth_date') or None,
+                address=request.POST.get('address', ''),
+            )
+            
+            # Get doctor and treatment
+            doctor_id = request.POST.get('doctor')
+            treatment_id = request.POST.get('treatment')
+            
+            doctor = None
+            treatment = None
+            
+            if doctor_id:
+                try:
+                    doctor = Doctor.objects.get(id=doctor_id)
+                except Doctor.DoesNotExist:
+                    pass
+            
+            if treatment_id:
+                try:
+                    treatment = Treatment.objects.get(id=treatment_id)
+                except Treatment.DoesNotExist:
+                    pass
+            
+            # Create appointment
+            if doctor and treatment:
+                appointment = Appointment.objects.create(
+                    patient=patient,
+                    doctor=doctor,
+                    treatment=treatment,
+                    doctor_name=doctor.name,
+                    service=treatment.name,
+                    date=request.POST.get('date'),
+                    time=request.POST.get('time'),
+                    status='scheduled',
+                    price=treatment.price,
+                    notes=request.POST.get('notes', ''),
+                )
+                messages.success(request, f'Patient "{patient.full_name}" created and appointment booked successfully!')
+            else:
+                messages.success(request, f'Patient "{patient.full_name}" created successfully!')
+            
+            return redirect('dashboard_summary')
+            
+        except Exception as e:
+            messages.error(request, f'Error creating patient: {str(e)}')
+            return redirect('dashboard_summary')
+    
+    return redirect('dashboard_summary')
 
 

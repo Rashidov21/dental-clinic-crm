@@ -21,6 +21,10 @@ def dashboard_summary(request):
     total_doctors = Doctor.objects.filter(is_active=True).count()
     total_treatments = Treatment.objects.filter(is_active=True).count()
     
+    # Get doctors and treatments for the modal
+    doctors = Doctor.objects.filter(is_active=True).order_by('name')
+    treatments = Treatment.objects.filter(is_active=True).order_by('name')
+    
     context = {
         'total_patients': total_patients,
         'total_appointments_today': total_appointments_today,
@@ -28,6 +32,8 @@ def dashboard_summary(request):
         'leads_this_month': leads_this_month,
         'total_doctors': total_doctors,
         'total_treatments': total_treatments,
+        'doctors': doctors,
+        'treatments': treatments,
     }
     return render(request, 'index.html', context)
 
