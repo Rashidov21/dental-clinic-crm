@@ -1,84 +1,197 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load translation_tags %}
 {% block title %}{% trans "Dental CRM — Receipt" %}{% endblock %}
 {% block content %}
 <div class="max-w-3xl mx-auto p-4 md:p-8">
-  <div class="mb-4">
-    <a href="/doctor/" class="text-sm text-teal-700">← {% trans "Back to Doctor Dashboard" %}</a>
+  <div class="mb-4 flex items-center justify-between">
+    <a href="/doctor/" class="text-sm text-teal-700 dark:text-teal-300">← {% trans "Back to Doctor Dashboard" %}</a>
+    <button onclick="printReceipt()" class="inline-flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 text-sm font-medium">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+      </svg>
+      {% trans "Print Receipt" %}
+    </button>
   </div>
-  <div class="bg-white border border-gray-200 rounded-xl p-6">
+  <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-6">
     <div class="flex items-center justify-between">
       <div>
-        <div class="text-sm text-gray-500">{% trans "Dental Clinic" %}</div>
-        <div class="text-xl font-semibold">{% trans "Receipt" %}</div>
+        <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Dental Clinic" %}</div>
+        <div class="text-xl font-semibold text-gray-900 dark:text-white">{% trans "Receipt" %}</div>
       </div>
-      <div class="text-sm text-gray-500">Date: Oct 14, 2025</div>
+      <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Date" %}: Oct 14, 2025</div>
     </div>
-    <hr class="my-4"/>
+    <hr class="my-4 border-gray-200 dark:border-gray-700"/>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
       <div>
-        <div class="text-gray-500">{% trans "Patient" %}</div>
-        <div class="font-medium">John Miller</div>
-        <div class="text-gray-500">{% trans "Phone" %}</div>
-        <div>(555) 123-4567</div>
+        <div class="text-gray-500 dark:text-gray-400">{% trans "Patient" %}</div>
+        <div class="font-medium text-gray-900 dark:text-white">John Miller</div>
+        <div class="text-gray-500 dark:text-gray-400">{% trans "Phone" %}</div>
+        <div class="text-gray-700 dark:text-gray-300">(555) 123-4567</div>
       </div>
       <div>
-        <div class="text-gray-500">{% trans "Doctor" %}</div>
-        <div class="font-medium">Dr. Emily Carter</div>
-        <div class="text-gray-500">{% trans "Appointment" %}</div>
-        <div>10:00 AM — Cleaning</div>
+        <div class="text-gray-500 dark:text-gray-400">{% trans "Doctor" %}</div>
+        <div class="font-medium text-gray-900 dark:text-white">Dr. Emily Carter</div>
+        <div class="text-gray-500 dark:text-gray-400">{% trans "Appointment" %}</div>
+        <div class="text-gray-700 dark:text-gray-300">10:00 AM — {% trans "Cleaning" %}</div>
       </div>
     </div>
     <div class="mt-6 overflow-x-auto">
       <table class="min-w-full text-sm">
-        <thead class="bg-gray-50">
+        <thead class="bg-gray-50 dark:bg-gray-900/60">
           <tr>
-            <th class="text-left px-3 py-2">{% trans "Procedure" %}</th>
-            <th class="text-left px-3 py-2">{% trans "Qty" %}</th>
-            <th class="text-right px-3 py-2">{% trans "Price" %}</th>
-            <th class="text-right px-3 py-2">{% trans "Total" %}</th>
+            <th class="text-left px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Procedure" %}</th>
+            <th class="text-left px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Qty" %}</th>
+            <th class="text-right px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Price" %}</th>
+            <th class="text-right px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Total" %}</th>
           </tr>
         </thead>
-        <tbody class="divide-y divide-gray-200">
+        <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
           <tr>
-            <td class="px-3 py-2">Scaling</td>
-            <td class="px-3 py-2">1</td>
-            <td class="px-3 py-2 text-right">$60.00</td>
-            <td class="px-3 py-2 text-right">$60.00</td>
+            <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Scaling" %}</td>
+            <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
+            <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$60.00</td>
+            <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$60.00</td>
           </tr>
           <tr>
-            <td class="px-3 py-2">Polishing</td>
-            <td class="px-3 py-2">1</td>
-            <td class="px-3 py-2 text-right">$40.00</td>
-            <td class="px-3 py-2 text-right">$40.00</td>
+            <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Polishing" %}</td>
+            <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
+            <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$40.00</td>
+            <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$40.00</td>
           </tr>
           <tr>
-            <td class="px-3 py-2">Fluoride Treatment</td>
-            <td class="px-3 py-2">1</td>
-            <td class="px-3 py-2 text-right">$25.00</td>
-            <td class="px-3 py-2 text-right">$25.00</td>
+            <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Fluoride Treatment" %}</td>
+            <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
+            <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$25.00</td>
+            <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$25.00</td>
           </tr>
         </tbody>
       </table>
     </div>
     <div class="mt-4 flex items-center justify-end">
       <div class="w-full sm:w-80">
-        <div class="flex items-center justify-between text-sm">
+        <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
           <div>{% trans "Subtotal" %}</div>
-          <div class="font-medium">$125.00</div>
+          <div class="font-medium text-gray-900 dark:text-white">$125.00</div>
         </div>
-        <div class="flex items-center justify-between text-sm">
+        <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
           <div>{% trans "Tax" %}</div>
-          <div class="font-medium">$0.00</div>
+          <div class="font-medium text-gray-900 dark:text-white">$0.00</div>
         </div>
-        <div class="border-t mt-2 pt-2 flex items-center justify-between font-semibold">
+        <div class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2 flex items-center justify-between font-semibold text-gray-900 dark:text-white">
           <div>{% trans "Total" %}</div>
           <div>$125.00</div>
         </div>
       </div>
     </div>
+    
+    <!-- Signature Section -->
+    <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-4">
+      <div class="grid grid-cols-3 gap-4 text-xs">
+        <!-- Doctor Signature -->
+        <div class="text-center">
+          <div class="border border-dashed border-gray-300 dark:border-gray-600 rounded p-2 h-12 mb-1">
+            <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "Dr. Signature" %}</div>
+          </div>
+          <div class="text-xs font-medium text-gray-900 dark:text-white">Dr. Emily Carter</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "Date" %}: _____</div>
+        </div>
+        
+        <!-- Admin Signature -->
+        <div class="text-center">
+          <div class="border border-dashed border-gray-300 dark:border-gray-600 rounded p-2 h-12 mb-1">
+            <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "Admin" %}</div>
+          </div>
+          <div class="text-xs font-medium text-gray-900 dark:text-white">{% trans "Payment OK" %}</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "Date" %}: _____</div>
+        </div>
+        
+        <!-- Patient Signature -->
+        <div class="text-center">
+          <div class="border border-dashed border-gray-300 dark:border-gray-600 rounded p-2 h-12 mb-1">
+            <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "Patient" %}</div>
+          </div>
+          <div class="text-xs font-medium text-gray-900 dark:text-white">John Miller</div>
+          <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "Date" %}: _____</div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
+
+<!-- Print Styles -->
+<style>
+  @media print {
+    body * {
+      visibility: hidden;
+    }
+    .print-receipt, .print-receipt * {
+      visibility: visible;
+    }
+    .print-receipt {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      background: white !important;
+      color: black !important;
+    }
+    .no-print {
+      display: none !important;
+    }
+    .print-receipt .bg-white {
+      background: white !important;
+    }
+    .print-receipt .text-gray-900 {
+      color: black !important;
+    }
+    .print-receipt .text-gray-700 {
+      color: #374151 !important;
+    }
+    .print-receipt .text-gray-500 {
+      color: #6b7280 !important;
+    }
+    .print-receipt .border-gray-200 {
+      border-color: #e5e7eb !important;
+    }
+    .print-receipt .bg-gray-50 {
+      background-color: #f9fafb !important;
+    }
+    .print-receipt .border-dashed {
+      border-style: dashed !important;
+    }
+    .print-receipt .border-gray-300 {
+      border-color: #d1d5db !important;
+    }
+    .print-receipt .h-12 {
+      height: 3rem !important;
+    }
+    .print-receipt .text-xs {
+      font-size: 0.75rem !important;
+    }
+  }
+</style>
+
+<script>
+function printReceipt() {
+  // Add print class to the receipt container
+  const receiptContainer = document.querySelector('.max-w-3xl');
+  receiptContainer.classList.add('print-receipt');
+  
+  // Hide the print button and back link for printing
+  const noPrintElements = document.querySelectorAll('.mb-4');
+  noPrintElements.forEach(el => el.classList.add('no-print'));
+  
+  // Trigger print dialog
+  window.print();
+  
+  // Clean up after printing
+  setTimeout(() => {
+    receiptContainer.classList.remove('print-receipt');
+    noPrintElements.forEach(el => el.classList.remove('no-print'));
+  }, 1000);
+}
+</script>
 {% endblock %}
 
 

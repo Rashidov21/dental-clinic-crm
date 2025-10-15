@@ -14,7 +14,239 @@
     </style>
   </head>
   <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
+    <!-- Django Messages Integration -->
+    {% if messages %}
+      {% for message in messages %}
+        <div class="django-messages {{ message.tags }}" style="display: none;">{{ message }}</div>
+      {% endfor %}
+    {% endif %}
+    
     {% block content %}{% endblock %}
+    
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-4 right-4 z-50 space-y-2"></div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmModal" class="modal fixed inset-0 z-50 items-center justify-center p-4 bg-black/40" style="display:none">
+      <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-lg w-full">
+        <div class="p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-10 h-10 rounded-full bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+              <svg class="w-6 h-6 text-red-600 dark:text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z"></path>
+              </svg>
+            </div>
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Confirm Action" %}</h3>
+              <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "This action cannot be undone" %}</p>
+            </div>
+          </div>
+          <p id="confirmMessage" class="text-gray-700 dark:text-gray-300 mb-6"></p>
+          <div class="flex gap-3">
+            <button id="confirmCancel" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">{% trans "Cancel" %}</button>
+            <button id="confirmDelete" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">{% trans "Delete" %}</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global JavaScript -->
+    <script>
+      // Toast Notification System
+      function showToast(message, type = 'success', duration = 5000) {
+        const container = document.getElementById('toast-container');
+        const toastId = 'toast-' + Date.now();
+        
+        const typeConfig = {
+          success: {
+            bg: 'bg-emerald-50 dark:bg-emerald-900/30',
+            border: 'border-emerald-200 dark:border-emerald-800',
+            text: 'text-emerald-800 dark:text-emerald-200',
+            icon: 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z'
+          },
+          error: {
+            bg: 'bg-red-50 dark:bg-red-900/30',
+            border: 'border-red-200 dark:border-red-800',
+            text: 'text-red-800 dark:text-red-200',
+            icon: 'M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z'
+          },
+          warning: {
+            bg: 'bg-yellow-50 dark:bg-yellow-900/30',
+            border: 'border-yellow-200 dark:border-yellow-800',
+            text: 'text-yellow-800 dark:text-yellow-200',
+            icon: 'M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.732-.833-2.5 0L4.268 19.5c-.77.833.192 2.5 1.732 2.5z'
+          },
+          info: {
+            bg: 'bg-blue-50 dark:bg-blue-900/30',
+            border: 'border-blue-200 dark:border-blue-800',
+            text: 'text-blue-800 dark:text-blue-200',
+            icon: 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'
+          }
+        };
+        
+        const config = typeConfig[type] || typeConfig.success;
+        
+        const toast = document.createElement('div');
+        toast.id = toastId;
+        toast.className = `max-w-lg w-full ${config.bg} ${config.border} border rounded-lg shadow-lg pointer-events-auto overflow-hidden transform transition-all duration-300 ease-in-out`;
+        toast.style.transform = 'translateX(100%)';
+        
+        toast.innerHTML = `
+          <div class="p-4">
+            <div class="flex items-start">
+              <div class="flex-shrink-0">
+                <svg class="w-5 h-5 ${config.text}" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="${config.icon}" clip-rule="evenodd"></path>
+                </svg>
+              </div>
+              <div class="ml-3 w-0 flex-1">
+                <p class="text-sm font-medium ${config.text}">${message}</p>
+              </div>
+              <div class="ml-4 flex-shrink-0 flex">
+                <button onclick="hideToast('${toastId}')" class="inline-flex ${config.text} hover:${config.text.replace('text-', 'text-').replace('800', '600')} focus:outline-none">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                  </svg>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        container.appendChild(toast);
+        
+        // Animate in
+        setTimeout(() => {
+          toast.style.transform = 'translateX(0)';
+        }, 10);
+        
+        // Auto hide
+        setTimeout(() => {
+          hideToast(toastId);
+        }, duration);
+      }
+      
+      function hideToast(toastId) {
+        const toast = document.getElementById(toastId);
+        if (toast) {
+          toast.style.transform = 'translateX(100%)';
+          setTimeout(() => {
+            if (toast.parentNode) {
+              toast.parentNode.removeChild(toast);
+            }
+          }, 300);
+        }
+      }
+      
+      // Confirmation Modal System
+      let confirmCallback = null;
+      
+      function showConfirmModal(message, callback) {
+        const modal = document.getElementById('confirmModal');
+        const messageEl = document.getElementById('confirmMessage');
+        const cancelBtn = document.getElementById('confirmCancel');
+        const deleteBtn = document.getElementById('confirmDelete');
+        
+        messageEl.textContent = message;
+        confirmCallback = callback;
+        
+        modal.style.display = 'flex';
+        document.body.style.overflow = 'hidden';
+        
+        // Event listeners
+        cancelBtn.onclick = () => hideConfirmModal();
+        deleteBtn.onclick = () => {
+          if (confirmCallback) {
+            confirmCallback();
+          }
+          hideConfirmModal();
+        };
+        
+        // Close on outside click
+        modal.onclick = (e) => {
+          if (e.target === modal) {
+            hideConfirmModal();
+          }
+        };
+      }
+      
+      function hideConfirmModal() {
+        const modal = document.getElementById('confirmModal');
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        confirmCallback = null;
+      }
+      
+      // Global delete function
+      function confirmDelete(message, deleteUrl, csrfToken) {
+        showConfirmModal(message, () => {
+          // Create form and submit
+          const form = document.createElement('form');
+          form.method = 'POST';
+          form.action = deleteUrl;
+          
+          // Add CSRF token
+          const csrfInput = document.createElement('input');
+          csrfInput.type = 'hidden';
+          csrfInput.name = 'csrfmiddlewaretoken';
+          csrfInput.value = csrfToken;
+          form.appendChild(csrfInput);
+          
+          document.body.appendChild(form);
+          form.submit();
+        });
+      }
+      
+      // Show Django messages as toasts
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check for Django messages in the template
+        const messages = document.querySelectorAll('.django-messages');
+        messages.forEach(message => {
+          const text = message.textContent.trim();
+          const level = message.className.includes('error') ? 'error' : 
+                      message.className.includes('warning') ? 'warning' : 
+                      message.className.includes('info') ? 'info' : 'success';
+          if (text) {
+            showToast(text, level);
+          }
+        });
+        
+        // Also check for any existing Django messages framework
+        const djangoMessages = document.querySelectorAll('.messages li, .alert, .message');
+        djangoMessages.forEach(message => {
+          const text = message.textContent.trim();
+          if (text) {
+            let level = 'success';
+            if (message.classList.contains('error') || message.classList.contains('danger')) {
+              level = 'error';
+            } else if (message.classList.contains('warning')) {
+              level = 'warning';
+            } else if (message.classList.contains('info')) {
+              level = 'info';
+            }
+            showToast(text, level);
+          }
+        });
+      });
+      
+      // Enhanced message detection for dynamic content
+      function checkForNewMessages() {
+        const messages = document.querySelectorAll('.django-messages:not(.processed)');
+        messages.forEach(message => {
+          message.classList.add('processed');
+          const text = message.textContent.trim();
+          const level = message.className.includes('error') ? 'error' : 
+                      message.className.includes('warning') ? 'warning' : 
+                      message.className.includes('info') ? 'info' : 'success';
+          if (text) {
+            showToast(text, level);
+          }
+        });
+      }
+      
+      // Check for new messages periodically
+      setInterval(checkForNewMessages, 1000);
+    </script>
   </body>
 </html>
 

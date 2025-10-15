@@ -5,7 +5,7 @@ from .models import Lead
 
 def lead_list(request):
     leads = Lead.objects.all().order_by('-created_at')
-    return render(request, 'leads/lead_list.html', {'leads': leads})
+    return render(request, 'leads.html', {'leads': leads})
 
 
 def lead_create(request):
@@ -18,7 +18,7 @@ def lead_create(request):
             notes=request.POST.get('notes', ''),
         )
         messages.success(request, 'Lead created successfully!')
-        return redirect('lead_list')
+        return redirect('leads_page')
     return render(request, 'leads/lead_form.html')
 
 
@@ -32,7 +32,7 @@ def lead_update(request, pk: int):
         lead.notes = request.POST.get('notes', lead.notes)
         lead.save()
         messages.success(request, 'Lead updated successfully!')
-        return redirect('lead_list')
+        return redirect('leads_page')
     return render(request, 'leads/lead_form.html', {'lead': lead})
 
 
@@ -40,6 +40,6 @@ def lead_delete(request, pk: int):
     lead = get_object_or_404(Lead, pk=pk)
     lead.delete()
     messages.success(request, 'Lead deleted successfully!')
-    return redirect('lead_list')
+    return redirect('leads_page')
 
 

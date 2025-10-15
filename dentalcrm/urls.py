@@ -5,6 +5,7 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
     path('test-translations/', TemplateView.as_view(template_name='test_translations.html'), name='test_translations'),
+    path('test-notifications/', TemplateView.as_view(template_name='test_notifications.html'), name='test_notifications'),
     path('', include('accounts.urls')),
     
     # Admin
@@ -12,7 +13,7 @@ urlpatterns = [
     
     # UI pages
     path('dashboard/', TemplateView.as_view(template_name='index.html'), name='dashboard_page'),
-    path('leads/page/', TemplateView.as_view(template_name='leads.html'), name='leads_page'),
+    path('leads/page/', include('leads.urls')),
     path('calendar/', TemplateView.as_view(template_name='calendar.html'), name='calendar_page'),
     path('clients/', TemplateView.as_view(template_name='clients.html'), name='clients_page'),
     path('payments/page/', TemplateView.as_view(template_name='payments.html'), name='payments_page'),
