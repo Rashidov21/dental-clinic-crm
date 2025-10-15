@@ -127,6 +127,15 @@
                 </select>
               </div>
               <div>
+                <label for="assigned_doctor" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Assign to Doctor" %}</label>
+                <select id="assigned_doctor" name="assigned_doctor" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+                  <option value="">{% trans "Select Doctor" %}</option>
+                  <option value="Dr. Emily Carter">{% trans "Dr. Emily Carter" %}</option>
+                  <option value="Dr. Daniel Lee">{% trans "Dr. Daniel Lee" %}</option>
+                  <option value="Dr. Arjun Patel">{% trans "Dr. Arjun Patel" %}</option>
+                </select>
+              </div>
+              <div>
                 <label for="status" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Status" %}</label>
                 <select id="status" name="status" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
                   <option value="new">{% trans "New" %}</option>
@@ -179,6 +188,15 @@
                   <option value="Referral">Referral</option>
                   <option value="Website">Website</option>
                   <option value="Other">Other</option>
+                </select>
+              </div>
+              <div>
+                <label for="edit_assigned_doctor" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Assign to Doctor" %}</label>
+                <select id="edit_assigned_doctor" name="assigned_doctor" required class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+                  <option value="">{% trans "Select Doctor" %}</option>
+                  <option value="Dr. Emily Carter">{% trans "Dr. Emily Carter" %}</option>
+                  <option value="Dr. Daniel Lee">{% trans "Dr. Daniel Lee" %}</option>
+                  <option value="Dr. Arjun Patel">{% trans "Dr. Arjun Patel" %}</option>
                 </select>
               </div>
               <div>
