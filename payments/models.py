@@ -1,5 +1,4 @@
 from django.db import models
-from patients.models import Patient
 
 
 class Payment(models.Model):
@@ -13,7 +12,7 @@ class Payment(models.Model):
         ('pending', 'Pending'),
     ]
 
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='payments')
+    patient = models.ForeignKey('patients.Patient', on_delete=models.CASCADE, related_name='payments')
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     payment_type = models.CharField(max_length=10, choices=PAYMENT_TYPE_CHOICES)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='paid')

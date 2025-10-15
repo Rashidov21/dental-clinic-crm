@@ -1,7 +1,5 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from patients.models import Patient
-from settings.models import Doctor, Treatment
 
 
 class Appointment(models.Model):
@@ -11,10 +9,10 @@ class Appointment(models.Model):
         ('cancelled', 'Cancelled'),
     ]
 
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='appointments')
-    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
+    patient = models.ForeignKey('patients.Patient', on_delete=models.CASCADE, related_name='appointments')
+    doctor = models.ForeignKey('settings.Doctor', on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
     doctor_user = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.SET_NULL, related_name='doctor_appointments')
-    treatment = models.ForeignKey(Treatment, on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
+    treatment = models.ForeignKey('settings.Treatment', on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
     # Legacy fields for migration compatibility
     doctor_name = models.CharField(max_length=255, blank=True)
     service = models.CharField(max_length=255, blank=True)

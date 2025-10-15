@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load translation_tags %}
+
+{% block title %}{% trans "Debug Modals" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+  <div class="max-w-2xl w-full bg-white rounded-lg shadow-md p-6">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 mb-4">{% trans "Modal Debug Test" %}</h1>
+      <p class="text-gray-600 mb-4">{% trans "Testing modal functionality with debug information" %}</p>
+    </div>
+    
+    <!-- Test Buttons -->
+    <div class="space-y-4">
+      <button onclick="testModalFunction()" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        {% trans "Test Modal Function" %}
+      </button>
+      
+      <button onclick="showModal('testModal')" class="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+        {% trans "Show Test Modal" %}
+      </button>
+      
+      <button onclick="listAllModals()" class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+        {% trans "List All Modals" %}
+      </button>
+    </div>
+    
+    <!-- Debug Information -->
+    <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+      <h3 class="font-semibold mb-2">{% trans "Debug Information" %}</h3>
+      <div id="debugInfo" class="text-sm text-gray-600">
+        <!-- Debug info will be populated here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Test Modal -->
+<div id="testModal" class="modal fixed inset-0 z-50 items-center justify-center p-4 bg-black/40" style="display:none">
+  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-md w-full">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Test Modal" %}</h3>
+        <button onclick="closeModal('testModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">{% trans "This is a test modal to verify functionality." %}</p>
+      <div class="flex gap-3">
+        <button onclick="closeModal('testModal')" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
+          {% trans "Cancel" %}
+        </button>
+        <button onclick="closeModal('testModal')" class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+          {% trans "OK" %}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Debug functions
+function testModalFunction() {
+  const debugInfo = document.getElementById('debugInfo');
+  let info = '<p><strong>Modal Function Test:</strong></p>';
+  
+  if (typeof showModal === 'function') {
+    info += '<p>✓ showModal function is available</p>';
+  } else {
+    info += '<p>✗ showModal function is NOT available</p>';
+  }
+  
+  if (typeof closeModal === 'function') {
+    info += '<p>✓ closeModal function is available</p>';
+  } else {
+    info += '<p>✗ closeModal function is NOT available</p>';
+  }
+  
+  const testModal = document.getElementById('testModal');
+  if (testModal) {
+    info += '<p>✓ testModal element found</p>';
+  } else {
+    info += '<p>✗ testModal element NOT found</p>';
+  }
+  
+  debugInfo.innerHTML = info;
+}
+
+function listAllModals() {
+  const debugInfo = document.getElementById('debugInfo');
+  let info = '<p><strong>All Modal Elements:</strong></p>';
+  
+  const allModals = document.querySelectorAll('[id*="modal"], .modal, [id*="Modal"]');
+  if (allModals.length > 0) {
+    allModals.forEach(modal => {
+      info += `<p>• ${modal.id || 'No ID'} (${modal.className})</p>`;
+    });
+  } else {
+    info += '<p>No modal elements found</p>';
+  }
+  
+  debugInfo.innerHTML = info;
+}
+
+// Test modal function availability on page load
+document.addEventListener('DOMContentLoaded', function() {
+  console.log('Debug page loaded');
+  testModalFunction();
+});
+</script>
+{% endblock %}

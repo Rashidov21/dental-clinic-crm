@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load translation_tags %}
+
+{% block title %}{% trans "Simple Modal Test" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+  <div class="max-w-md w-full bg-white rounded-lg shadow-md p-6">
+    <div class="text-center mb-6">
+      <h1 class="text-xl font-bold text-gray-900 mb-4">{% trans "Simple Modal Test" %}</h1>
+      <p class="text-gray-600 mb-4">{% trans "Testing basic modal functionality" %}</p>
+    </div>
+    
+    <!-- Test Button -->
+    <button onclick="showModal('testModal')" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 mb-4">
+      {% trans "Show Modal" %}
+    </button>
+    
+    <!-- Debug Info -->
+    <div class="text-sm text-gray-600">
+      <p><strong>{% trans "Debug Info:" %}</strong></p>
+      <p id="debugInfo">{% trans "Click the button to test" %}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Simple Test Modal -->
+<div id="testModal" class="modal fixed inset-0 z-50 items-center justify-center p-4 bg-black/40" style="display:none">
+  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-md w-full">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Test Modal" %}</h3>
+        <button onclick="closeModal('testModal')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">{% trans "This is a simple test modal." %}</p>
+      <div class="flex gap-3">
+        <button onclick="closeModal('testModal')" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
+          {% trans "Close" %}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// Simple test function
+function testModal() {
+  const debugInfo = document.getElementById('debugInfo');
+  if (typeof showModal === 'function') {
+    debugInfo.innerHTML = '✓ showModal function is available';
+  } else {
+    debugInfo.innerHTML = '✗ showModal function is NOT available';
+  }
+}
+
+// Test on page load
+document.addEventListener('DOMContentLoaded', function() {
+  testModal();
+});
+</script>
+{% endblock %}

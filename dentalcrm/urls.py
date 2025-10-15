@@ -8,7 +8,12 @@ from dashboard import views as dashboard_views
 
 urlpatterns = [
     path('i18n/', include('django.conf.urls.i18n')),
-
+    path('test-translations/', TemplateView.as_view(template_name='test_translations.html'), name='test_translations'),
+    path('test-notifications/', TemplateView.as_view(template_name='test_notifications.html'), name='test_notifications'),
+    path('test-favicon/', TemplateView.as_view(template_name='test_favicon.html'), name='test_favicon'),
+    path('test-modals/', TemplateView.as_view(template_name='test_modals.html'), name='test_modals'),
+    path('debug-modals/', TemplateView.as_view(template_name='debug_modals.html'), name='debug_modals'),
+    path('simple-modal-test/', TemplateView.as_view(template_name='simple_modal_test.html'), name='simple_modal_test'),
     path('', include('accounts.urls')),
     
     # Admin
@@ -26,7 +31,9 @@ urlpatterns = [
     path('receipt/page/', TemplateView.as_view(template_name='receipt.html'), name='receipt_page'),
     path('settings/', include('settings.urls')),
 
-
+    # API endpoints
+    path('appointments/', include('appointments.urls')),
+    path('receipts/', include('receipts.urls')),
     
     # Book appointment endpoints
     path('book/create/', appointment_views.appointment_create, name='book_create'),

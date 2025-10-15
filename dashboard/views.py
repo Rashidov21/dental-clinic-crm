@@ -58,10 +58,8 @@ def doctor_dashboard(request):
         
         # Get all active doctors
         doctors = Doctor.objects.filter(is_active=True).order_by('name')
-        print(doctors)
         # Get today's appointments
         today_appointments = Appointment.objects.filter(date=today).order_by('time')
-        print(today_appointments)
         # Get upcoming appointments (next 7 days)
         from datetime import timedelta
         next_week = today + timedelta(days=7)

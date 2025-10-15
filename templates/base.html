@@ -18,6 +18,41 @@
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <style>
       html { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
+      
+      /* Modal styles */
+      .modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4);
+        z-index: 50;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+      }
+      
+      .modal.show {
+        display: flex !important;
+      }
+      
+      .modal-content {
+        background: white;
+        border-radius: 0.75rem;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        max-width: 28rem;
+        width: 100%;
+        max-height: 90vh;
+        overflow-y: auto;
+      }
+      
+      @media (prefers-color-scheme: dark) {
+        .modal-content {
+          background: #111827;
+        }
+      }
     </style>
   </head>
   <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100">
@@ -211,6 +246,7 @@
         if (modal) {
           console.log('Modal found, showing...');
           modal.style.display = 'flex';
+          modal.classList.add('show');
           document.body.style.overflow = 'hidden';
           
           // Close on outside click
@@ -221,6 +257,9 @@
           };
         } else {
           console.error('Modal not found with ID:', modalId);
+          // List all available modals for debugging
+          const allModals = document.querySelectorAll('[id$="Modal"], [id*="modal"], .modal');
+          console.log('Available modals:', Array.from(allModals).map(m => m.id));
         }
       }
       
@@ -230,14 +269,31 @@
         if (modal) {
           console.log('Modal found, hiding...');
           modal.style.display = 'none';
+          modal.classList.remove('show');
           document.body.style.overflow = 'auto';
         } else {
           console.error('Modal not found with ID:', modalId);
         }
       }
       
-      // Show Django messages as toasts
+      // Initialize modal system
       document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded, initializing modal system...');
+        
+        // Test if showModal function is available
+        if (typeof showModal === 'function') {
+          console.log('showModal function is available');
+        } else {
+          console.error('showModal function is not available');
+        }
+        
+        // Test if modals exist
+        const testModal = document.getElementById('addLead');
+        if (testModal) {
+          console.log('addLead modal found');
+        } else {
+          console.log('addLead modal not found');
+        }
         // Check for Django messages in the template
         const messages = document.querySelectorAll('.django-messages');
         messages.forEach(message => {
