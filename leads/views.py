@@ -12,11 +12,19 @@ def lead_list(request):
 
 def lead_create(request):
     if request.method == 'POST':
+        doctor_id = request.POST.get('assigned_doctor')
+        doctor = None
+        if doctor_id:
+            try:
+                doctor = Doctor.objects.get(id=doctor_id)
+            except Doctor.DoesNotExist:
+                pass
+        
         lead = Lead.objects.create(
             full_name=request.POST.get('full_name', ''),
             phone=request.POST.get('phone', ''),
             source=request.POST.get('source', ''),
-            assigned_doctor=request.POST.get('assigned_doctor', ''),
+            assigned_doctor=doctor,
             status=request.POST.get('status', 'new'),
             notes=request.POST.get('notes', ''),
         )
@@ -28,10 +36,18 @@ def lead_create(request):
 def lead_update(request, pk: int):
     lead = get_object_or_404(Lead, pk=pk)
     if request.method == 'POST':
+        doctor_id = request.POST.get('assigned_doctor')
+        doctor = None
+        if doctor_id:
+            try:
+                doctor = Doctor.objects.get(id=doctor_id)
+            except Doctor.DoesNotExist:
+                pass
+        
         lead.full_name = request.POST.get('full_name', lead.full_name)
         lead.phone = request.POST.get('phone', lead.phone)
         lead.source = request.POST.get('source', lead.source)
-        lead.assigned_doctor = request.POST.get('assigned_doctor', lead.assigned_doctor)
+        lead.assigned_doctor = doctor
         lead.status = request.POST.get('status', lead.status)
         lead.notes = request.POST.get('notes', lead.notes)
         lead.save()

@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from patients.models import Patient
+from settings.models import Doctor, Treatment
 
 
 class Appointment(models.Model):
@@ -11,9 +12,12 @@ class Appointment(models.Model):
     ]
 
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE, related_name='appointments')
-    doctor_name = models.CharField(max_length=255)
+    doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
     doctor_user = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.SET_NULL, related_name='doctor_appointments')
-    service = models.CharField(max_length=255)
+    treatment = models.ForeignKey(Treatment, on_delete=models.CASCADE, related_name='appointments', null=True, blank=True)
+    # Legacy fields for migration compatibility
+    doctor_name = models.CharField(max_length=255, blank=True)
+    service = models.CharField(max_length=255, blank=True)
     date = models.DateField()
     time = models.TimeField()
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='scheduled')
@@ -21,6 +25,6 @@ class Appointment(models.Model):
     notes = models.TextField(blank=True)
 
     def __str__(self) -> str:
-        return f"{self.patient.full_name} — {self.service} on {self.date} {self.time}"
+        return f"{self.patient.full_name} — {self.treatment.name} on {self.date} {self.time}"
 
 

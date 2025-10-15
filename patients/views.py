@@ -1,16 +1,21 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Patient
+from settings.models import Doctor, Treatment
 
 
 def patient_list(request):
     patients = Patient.objects.all().order_by('full_name')
-    return render(request, 'clients.html', {'patients': patients})
+    doctors = Doctor.objects.filter(is_active=True).order_by('name')
+    treatments = Treatment.objects.filter(is_active=True).order_by('name')
+    return render(request, 'clients.html', {'patients': patients, 'doctors': doctors, 'treatments': treatments})
 
 
 def patient_detail(request, pk: int):
     patient = get_object_or_404(Patient, pk=pk)
-    return render(request, 'patient.html', {'patient': patient})
+    doctors = Doctor.objects.filter(is_active=True).order_by('name')
+    treatments = Treatment.objects.filter(is_active=True).order_by('name')
+    return render(request, 'patient.html', {'patient': patient, 'doctors': doctors, 'treatments': treatments})
 
 
 def patient_update(request, pk: int):

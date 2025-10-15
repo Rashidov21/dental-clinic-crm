@@ -49,9 +49,10 @@
 
       <!-- Doctor Availability Overview -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {% for doctor in doctors %}
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
           <div class="flex items-center justify-between mb-3">
-            <h3 class="font-semibold text-gray-900 dark:text-white">{% trans "Dr. Emily Carter" %}</h3>
+            <h3 class="font-semibold text-gray-900 dark:text-white">{{ doctor.name }}</h3>
             <span class="text-xs px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">{% trans "Available" %}</span>
           </div>
           <div class="space-y-2 text-sm">
@@ -61,56 +62,19 @@
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600 dark:text-gray-400">{% trans "Room" %}</span>
-              <span class="text-gray-900 dark:text-white">{% trans "Room 1" %}</span>
+              <span class="text-gray-900 dark:text-white">{% trans "Room" %} {{ forloop.counter }}</span>
             </div>
             <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">{% trans "Next Available" %}</span>
-              <span class="text-gray-900 dark:text-white">2:30 PM</span>
+              <span class="text-gray-600 dark:text-gray-400">{% trans "Specialization" %}</span>
+              <span class="text-gray-900 dark:text-white">{{ doctor.specialization }}</span>
             </div>
           </div>
         </div>
-
-        <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="font-semibold text-gray-900 dark:text-white">{% trans "Dr. Daniel Lee" %}</h3>
-            <span class="text-xs px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">{% trans "Available" %}</span>
-          </div>
-          <div class="space-y-2 text-sm">
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">{% trans "Today" %}</span>
-              <span class="text-gray-900 dark:text-white">8:30 AM - 4:30 PM</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">{% trans "Room" %}</span>
-              <span class="text-gray-900 dark:text-white">{% trans "Room 2" %}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">{% trans "Next Available" %}</span>
-              <span class="text-gray-900 dark:text-white">11:45 AM</span>
-            </div>
-          </div>
+        {% empty %}
+        <div class="col-span-3 text-center py-8 text-gray-500 dark:text-gray-400">
+          {% trans "No doctors available. Please add doctors in settings." %}
         </div>
-
-        <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-          <div class="flex items-center justify-between mb-3">
-            <h3 class="font-semibold text-gray-900 dark:text-white">{% trans "Dr. Arjun Patel" %}</h3>
-            <span class="text-xs px-2 py-1 rounded bg-yellow-100 text-yellow-700 dark:bg-yellow-900/30 dark:text-yellow-300">{% trans "Busy" %}</span>
-          </div>
-          <div class="space-y-2 text-sm">
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">{% trans "Today" %}</span>
-              <span class="text-gray-900 dark:text-white">10:00 AM - 6:00 PM</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">{% trans "Room" %}</span>
-              <span class="text-gray-900 dark:text-white">{% trans "Room 3" %}</span>
-            </div>
-            <div class="flex justify-between">
-              <span class="text-gray-600 dark:text-gray-400">{% trans "Next Available" %}</span>
-              <span class="text-gray-900 dark:text-white">3:15 PM</span>
-            </div>
-          </div>
-        </div>
+        {% endfor %}
       </div>
 
       <!-- Upcoming Appointments -->
@@ -193,9 +157,9 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Doctor" %}</label>
             <select id="appointmentDoctor" name="doctor" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required onchange="updateAvailableTimes()">
               <option value="">{% trans "Select Doctor" %}</option>
-              <option value="Dr. Emily Carter">{% trans "Dr. Emily Carter" %}</option>
-              <option value="Dr. Daniel Lee">{% trans "Dr. Daniel Lee" %}</option>
-              <option value="Dr. Arjun Patel">{% trans "Dr. Arjun Patel" %}</option>
+              {% for doctor in doctors %}
+              <option value="{{ doctor.id }}">{{ doctor.name }}</option>
+              {% endfor %}
             </select>
           </div>
         </div>
@@ -238,12 +202,9 @@
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Treatment Type" %}</label>
           <select name="treatment" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
             <option value="">{% trans "Select Treatment" %}</option>
-            <option value="Cleaning">{% trans "Cleaning" %}</option>
-            <option value="Whitening">{% trans "Whitening" %}</option>
-            <option value="Filling">{% trans "Filling" %}</option>
-            <option value="Crown">{% trans "Crown" %}</option>
-            <option value="Implant">{% trans "Implant" %}</option>
-            <option value="Consultation">{% trans "Consultation" %}</option>
+            {% for treatment in treatments %}
+            <option value="{{ treatment.id }}">{{ treatment.name }} - ${{ treatment.price }}</option>
+            {% endfor %}
           </select>
         </div>
         
@@ -302,15 +263,15 @@ function updateAvailableTimes() {
     
     // Simulate available times based on doctor
     const availableTimes = {
-        'Dr. Emily Carter': ['9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM'],
-        'Dr. Daniel Lee': ['8:30 AM', '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM'],
-        'Dr. Arjun Patel': ['10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM']
+        {% for doctor in doctors %}
+        '{{ doctor.id }}': ['9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM']{% if not forloop.last %},{% endif %}
+        {% endfor %}
     };
     
     const doctorRooms = {
-        'Dr. Emily Carter': ['Room 1'],
-        'Dr. Daniel Lee': ['Room 2'],
-        'Dr. Arjun Patel': ['Room 3']
+        {% for doctor in doctors %}
+        '{{ doctor.id }}': ['Room {{ forloop.counter }}']{% if not forloop.last %},{% endif %}
+        {% endfor %}
     };
     
     // Add available times

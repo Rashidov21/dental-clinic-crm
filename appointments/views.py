@@ -17,10 +17,30 @@ def appointment_list(request):
 
 def appointment_create(request):
     if request.method == 'POST':
+        doctor_id = request.POST.get('doctor')
+        treatment_id = request.POST.get('treatment')
+        
+        doctor = None
+        treatment = None
+        
+        if doctor_id:
+            try:
+                doctor = Doctor.objects.get(id=doctor_id)
+            except Doctor.DoesNotExist:
+                pass
+        
+        if treatment_id:
+            try:
+                treatment = Treatment.objects.get(id=treatment_id)
+            except Treatment.DoesNotExist:
+                pass
+        
         appt = Appointment.objects.create(
             patient_id=request.POST.get('patient'),
-            doctor_name=request.POST.get('doctor', ''),
-            service=request.POST.get('treatment', ''),
+            doctor=doctor,
+            treatment=treatment,
+            doctor_name=doctor.name if doctor else '',
+            service=treatment.name if treatment else '',
             date=request.POST.get('date'),
             time=request.POST.get('time'),
             status=request.POST.get('status', 'scheduled'),

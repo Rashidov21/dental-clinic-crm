@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import Payment
 from datetime import datetime
+from settings.models import Doctor, Treatment
 
 
 def payment_list(request):
@@ -23,7 +24,10 @@ def payment_list(request):
             qs = qs.filter(date__lte=end_dt)
         except ValueError:
             pass
-    return render(request, 'payments/payment_list.html', {'payments': qs})
+    
+    doctors = Doctor.objects.filter(is_active=True).order_by('name')
+    treatments = Treatment.objects.filter(is_active=True).order_by('name')
+    return render(request, 'payments.html', {'payments': qs, 'doctors': doctors, 'treatments': treatments})
 
 
 def payment_create(request):
