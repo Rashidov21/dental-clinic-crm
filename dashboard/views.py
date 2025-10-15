@@ -23,7 +23,6 @@ def dashboard_summary(request):
     contacted_leads = Lead.objects.filter(status='contacted').count()
     converted_leads = Lead.objects.filter(status='converted').count()
     lost_leads = Lead.objects.filter(status='lost').count()
-    print(new_leads, contacted_leads, converted_leads, lost_leads)
     # Settings data
     total_doctors = Doctor.objects.filter(is_active=True).count()
     total_treatments = Treatment.objects.filter(is_active=True).count()
