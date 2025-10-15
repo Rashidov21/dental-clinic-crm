@@ -125,7 +125,7 @@
                 <td class="px-4 py-3">{{ lead.source|default:"—" }}</td>
                 <td class="px-4 py-3">{{ lead.created_at|date:"M d, Y" }}</td>
                 <td class="px-4 py-3 text-right space-x-2">
-                  <button onclick="editLead({{ lead.id }}, '{{ lead.full_name|escapejs }}', '{{ lead.phone|escapejs }}', '{{ lead.source|escapejs }}', '{{ lead.status }}', '{{ lead.notes|escapejs }}')" class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 text-gray-700 dark:text-gray-200">{% trans "Edit" %}</button>
+                  <button onclick="editLead({{ lead.id }}, '{{ lead.full_name|escapejs }}', '{{ lead.phone|escapejs }}', '{{ lead.source|escapejs }}', '{{ lead.status }}', '{{ lead.notes|escapejs }}')" class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 hover:bg-red-100 text-gray-700 dark:text-gray-200">{% trans "Edit" %}</button>
                   <button onclick="deleteLead({{ lead.id }}, '{{ lead.full_name|escapejs }}')" class="px-3 py-1 rounded bg-red-50 text-red-700 hover:bg-red-100 dark:bg-red-900/30 dark:text-red-200">{% trans "Delete" %}</button>
                 </td>
               </tr>
@@ -271,24 +271,6 @@
 </div>
 
 <script>
-// Modal functionality
-function showModal(modalId) {
-    document.getElementById(modalId).style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-}
-
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-// Close modal when clicking outside
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('modal')) {
-        closeModal(event.target.id);
-    }
-});
-
 // Handle edit lead functionality
 function editLead(leadId, fullName, phone, source, status, notes) {
     // Populate the edit form with current data

@@ -13,6 +13,7 @@ def dashboard_summary(request):
     total_patients = Patient.objects.count() or 0
     total_appointments_today = Appointment.objects.filter(date=today).count() 
     appointments = Appointment.objects.filter(status='scheduled').order_by('time')[:7]
+    completed_appointments = Appointment.objects.filter(status='completed', date=today).count()
     total_income = Payment.objects.filter(status='paid').aggregate(total=models.Sum('amount'))['total'] 
     today_income = Payment.objects.filter(status='paid', date=today).aggregate(total=models.Sum('amount'))['total']
     # leads this calendar month
@@ -42,6 +43,7 @@ def dashboard_summary(request):
         'doctors': doctors,
         'treatments': treatments,
         'appointments': appointments,
+        'completed_appointments': completed_appointments,
         'new_leads': new_leads,
         'contacted_leads': contacted_leads,
         'converted_leads': converted_leads,

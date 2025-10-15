@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load i18n %}
 {% load translation_tags %}
 {% block title %}{% trans "Dental CRM — Clients" %}{% endblock %}
 {% block content %}
@@ -174,9 +173,9 @@
                 <td class="px-4 py-3 text-right space-x-2">
                   <a href="/patient/page/{{ patient.id }}/"
                     class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "View History" %}</a>
-                  <button onclick="showModal('addVisit', '{{ patient.full_name|escapejs }}')"
+                  <button onclick="showClientModal('addVisit', '{{ patient.full_name|escapejs }}')"
                     class="px-3 py-1 rounded bg-teal-600 text-white hover:bg-teal-700 text-xs">{% trans "Add Visit" %}</button>
-                  <button onclick="showModal('editClient', '{{ patient.full_name|escapejs }}')"
+                  <button onclick="showClientModal('editClient', '{{ patient.full_name|escapejs }}')"
                     class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "Edit Info" %}</button>
                 </td>
               </tr>
@@ -345,12 +344,11 @@
       window.location.href = window.location.pathname;
   }
 
-  // Modal functionality
-  function showModal(modalId, clientName = '') {
-    const modal = document.getElementById(modalId);
-    modal.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-
+  // Custom modal functionality for clients
+  function showClientModal(modalId, clientName = '') {
+    // Use the base showModal function
+    showModal(modalId);
+    
     // Pre-populate client name if provided
     if (clientName && modalId === 'addVisit') {
       document.getElementById('visitPatient').value = clientName;
@@ -358,18 +356,6 @@
       document.getElementById('editClientName').value = clientName;
     }
   }
-
-  function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-    document.body.style.overflow = 'auto';
-  }
-
-  // Close modal when clicking outside
-  document.addEventListener('click', function (event) {
-    if (event.target.classList.contains('modal')) {
-      closeModal(event.target.id);
-    }
-  });
 
 </script>
 {% endblock %}

@@ -76,7 +76,7 @@
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
           <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Today's Appointments" %}</div>
           <div class="mt-2 text-2xl font-semibold">{% if total_appointments_today %}{{ total_appointments_today }}{% else %}0{% endif %}</div>
-          <div class="mt-1 text-xs text-blue-600">{% trans "6 completed" %}</div>
+          <div class="mt-1 text-xs text-blue-600">{% trans "{{completed_appointments}} completed" %}</div>
         </div>
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
           <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Total Income" %}</div>

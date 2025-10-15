@@ -3,12 +3,19 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% load static %}
     {% load translation_tags %}
     <title>{% block title %}{% trans "Dental CRM" %}{% endblock %}</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.png' %}">
+    <link rel="apple-touch-icon" href="{% static 'img/favicon.png' %}">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <style>
       html { font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji"; }
     </style>
@@ -199,8 +206,10 @@
       
       // Modal System
       function showModal(modalId) {
+        console.log('showModal called with ID:', modalId);
         const modal = document.getElementById(modalId);
         if (modal) {
+          console.log('Modal found, showing...');
           modal.style.display = 'flex';
           document.body.style.overflow = 'hidden';
           
@@ -210,14 +219,20 @@
               closeModal(modalId);
             }
           };
+        } else {
+          console.error('Modal not found with ID:', modalId);
         }
       }
       
       function closeModal(modalId) {
+        console.log('closeModal called with ID:', modalId);
         const modal = document.getElementById(modalId);
         if (modal) {
+          console.log('Modal found, hiding...');
           modal.style.display = 'none';
           document.body.style.overflow = 'auto';
+        } else {
+          console.error('Modal not found with ID:', modalId);
         }
       }
       

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% load i18n %}
 {% load translation_tags %}
 {% block title %}{% trans "Dental CRM — Book Appointment" %}{% endblock %}
 {% block content %}
@@ -45,7 +44,7 @@
           <h1 class="text-lg font-semibold">{% trans "Schedule Appointment" %}</h1>
           <p class="text-sm text-gray-500 dark:text-gray-400">{% trans "Book appointments with doctor availability and room assignments" %}</p>
         </div>
-        <button onclick="showModal('bookAppointment')" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700">+ {% trans "Book Appointment" %}</button>
+        <button onclick="showBookingModal('bookAppointment')" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700">+ {% trans "Book Appointment" %}</button>
       </div>
 
       <!-- Doctor Availability Overview -->
@@ -260,10 +259,10 @@
 </div>
 
 <script>
-// Modal functionality
-function showModal(modalId) {
-    document.getElementById(modalId).style.display = 'flex';
-    document.body.style.overflow = 'hidden';
+// Custom modal functionality for booking
+function showBookingModal(modalId) {
+    // Use the base showModal function
+    showModal(modalId);
     
     // Set default date to today
     const dateInput = document.getElementById('appointmentDate');
@@ -272,18 +271,6 @@ function showModal(modalId) {
         dateInput.value = today;
     }
 }
-
-function closeModal(modalId) {
-    document.getElementById(modalId).style.display = 'none';
-    document.body.style.overflow = 'auto';
-}
-
-// Close modal when clicking outside
-document.addEventListener('click', function(event) {
-    if (event.target.classList.contains('modal')) {
-        closeModal(event.target.id);
-    }
-});
 
 // Update available times based on doctor and date
 function updateAvailableTimes() {

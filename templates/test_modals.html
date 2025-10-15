@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% load translation_tags %}
+
+{% block title %}{% trans "Test Modals" %}{% endblock %}
+
+{% block content %}
+<div class="min-h-screen bg-gray-50 flex items-center justify-center p-4">
+  <div class="max-w-2xl w-full bg-white rounded-lg shadow-md p-6">
+    <div class="text-center mb-6">
+      <h1 class="text-2xl font-bold text-gray-900 mb-4">{% trans "Modal Translation Test" %}</h1>
+      <p class="text-gray-600 mb-4">{% trans "Test if modals work with translation system" %}</p>
+    </div>
+    
+    <!-- Test Buttons -->
+    <div class="space-y-4">
+      <button onclick="showModal('testModal1')" class="w-full bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">
+        {% trans "Test Modal 1" %}
+      </button>
+      
+      <button onclick="showModal('testModal2')" class="w-full bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">
+        {% trans "Test Modal 2" %}
+      </button>
+      
+      <button onclick="showModal('testModal3')" class="w-full bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+        {% trans "Test Modal 3" %}
+      </button>
+    </div>
+    
+    <!-- Language Switcher -->
+    <div class="mt-6 p-4 bg-gray-100 rounded-lg">
+      <h3 class="font-semibold mb-2">{% trans "Language Switcher" %}</h3>
+      <div class="flex gap-2">
+        <a href="/set-language/?lang=uz" class="px-3 py-1 bg-teal-600 text-white rounded text-sm hover:bg-teal-700">{% trans "Uzbek Latin" %}</a>
+        <a href="/set-language/?lang=uz-Cyrl" class="px-3 py-1 bg-teal-600 text-white rounded text-sm hover:bg-teal-700">{% trans "Uzbek Cyrillic" %}</a>
+        <a href="/set-language/?lang=ru" class="px-3 py-1 bg-teal-600 text-white rounded text-sm hover:bg-teal-700">{% trans "Russian" %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Test Modal 1 -->
+<div id="testModal1" class="modal fixed inset-0 z-50 items-center justify-center p-4 bg-black/40" style="display:none">
+  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-md w-full">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Test Modal 1" %}</h3>
+        <button onclick="closeModal('testModal1')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">{% trans "This is a test modal to verify translation functionality." %}</p>
+      <div class="flex gap-3">
+        <button onclick="closeModal('testModal1')" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
+          {% trans "Cancel" %}
+        </button>
+        <button onclick="closeModal('testModal1')" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          {% trans "OK" %}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Test Modal 2 -->
+<div id="testModal2" class="modal fixed inset-0 z-50 items-center justify-center p-4 bg-black/40" style="display:none">
+  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-md w-full">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Test Modal 2" %}</h3>
+        <button onclick="closeModal('testModal2')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">{% trans "This modal tests form elements with translations." %}</p>
+      <form class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Name" %}</label>
+          <input type="text" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+        </div>
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Email" %}</label>
+          <input type="email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+        </div>
+        <div class="flex gap-3">
+          <button type="button" onclick="closeModal('testModal2')" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
+            {% trans "Cancel" %}
+          </button>
+          <button type="submit" class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700">
+            {% trans "Submit" %}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Test Modal 3 -->
+<div id="testModal3" class="modal fixed inset-0 z-50 items-center justify-center p-4 bg-black/40" style="display:none">
+  <div class="bg-white dark:bg-gray-900 rounded-xl shadow-xl max-w-md w-full">
+    <div class="p-6">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{% trans "Test Modal 3" %}</h3>
+        <button onclick="closeModal('testModal3')" class="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      <p class="text-gray-700 dark:text-gray-300 mb-4">{% trans "This modal tests dropdown selections with translations." %}</p>
+      <div class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Select Option" %}</label>
+          <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+            <option value="">{% trans "Choose an option" %}</option>
+            <option value="option1">{% trans "Option 1" %}</option>
+            <option value="option2">{% trans "Option 2" %}</option>
+            <option value="option3">{% trans "Option 3" %}</option>
+          </select>
+        </div>
+        <div class="flex gap-3">
+          <button onclick="closeModal('testModal3')" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">
+            {% trans "Cancel" %}
+          </button>
+          <button onclick="closeModal('testModal3')" class="flex-1 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700">
+            {% trans "Save" %}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
