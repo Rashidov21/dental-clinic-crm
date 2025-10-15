@@ -18,29 +18,34 @@ def lead_list(request):
     if status_filter:
         leads = leads.filter(status=status_filter)
     
-    # Apply time filters
-    now = timezone.now()
-    today = now.date()
+    # Apply time filter
+    if time_filter:
+        now = timezone.now()
+        if time_filter == 'today':
+            leads = leads.filter(created_at__date=now.date())
+        elif time_filter == 'week':
+            week_start = now - timedelta(days=now.weekday())
+            leads = leads.filter(created_at__date__gte=week_start.date())
+        elif time_filter == 'month':
+            month_start = now.replace(day=1)
+            leads = leads.filter(created_at__date__gte=month_start.date())
     
-    if time_filter == 'today':
-        leads = leads.filter(created_at__date=today)
-    elif time_filter == 'week':
-        week_ago = today - timedelta(days=7)
-        leads = leads.filter(created_at__date__gte=week_ago)
-    elif time_filter == 'month':
-        month_ago = today - timedelta(days=30)
-        leads = leads.filter(created_at__date__gte=month_ago)
-    
-    # Get filter counts for display
+    # Get counts for filter buttons
     total_leads = Lead.objects.count()
-    today_count = Lead.objects.filter(created_at__date=today).count()
-    week_count = Lead.objects.filter(created_at__date__gte=today - timedelta(days=7)).count()
-    month_count = Lead.objects.filter(created_at__date__gte=today - timedelta(days=30)).count()
+    today_count = Lead.objects.filter(created_at__date=timezone.now().date()).count()
+    week_start = timezone.now() - timedelta(days=timezone.now().weekday())
+    week_count = Lead.objects.filter(created_at__date__gte=week_start.date()).count()
+    month_start = timezone.now().replace(day=1)
+    month_count = Lead.objects.filter(created_at__date__gte=month_start.date()).count()
     
-    # Status counts
-    status_counts = {}
-    for status_choice in Lead.STATUS_CHOICES:
-        status_counts[status_choice[0]] = Lead.objects.filter(status=status_choice[0]).count()
+    # Get status counts
+    status_counts = {
+        'new': Lead.objects.filter(status='new').count(),
+        'contacted': Lead.objects.filter(status='contacted').count(),
+        'qualified': Lead.objects.filter(status='qualified').count(),
+        'converted': Lead.objects.filter(status='converted').count(),
+        'lost': Lead.objects.filter(status='lost').count(),
+    }
     
     context = {
         'leads': leads,
