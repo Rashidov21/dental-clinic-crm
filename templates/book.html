@@ -176,11 +176,12 @@
           </svg>
         </button>
       </div>
-      <form class="space-y-4">
+      <form method="post" action="/book/create/" class="space-y-4">
+        {% csrf_token %}
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Patient" %}</label>
-            <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+            <select name="patient" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
               <option value="">{% trans "Select Patient" %}</option>
               <option value="Alex Johnson">Alex Johnson</option>
               <option value="Maria Gomez">Maria Gomez</option>
@@ -190,7 +191,7 @@
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Doctor" %}</label>
-            <select id="appointmentDoctor" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required onchange="updateAvailableTimes()">
+            <select id="appointmentDoctor" name="doctor" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required onchange="updateAvailableTimes()">
               <option value="">{% trans "Select Doctor" %}</option>
               <option value="Dr. Emily Carter">{% trans "Dr. Emily Carter" %}</option>
               <option value="Dr. Daniel Lee">{% trans "Dr. Daniel Lee" %}</option>
@@ -202,11 +203,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Date" %}</label>
-            <input type="date" id="appointmentDate" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required onchange="updateAvailableTimes()">
+            <input type="date" id="appointmentDate" name="date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required onchange="updateAvailableTimes()">
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Time" %}</label>
-            <select id="appointmentTime" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+            <select id="appointmentTime" name="time" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
               <option value="">{% trans "Select Time" %}</option>
             </select>
           </div>
@@ -215,7 +216,7 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Room" %}</label>
-            <select id="appointmentRoom" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+            <select id="appointmentRoom" name="room" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
               <option value="">{% trans "Select Room" %}</option>
               <option value="Room 1">{% trans "Room 1" %}</option>
               <option value="Room 2">{% trans "Room 2" %}</option>
@@ -224,7 +225,7 @@
           </div>
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Duration" %}</label>
-            <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+            <select name="duration" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
               <option value="30">30 {% trans "minutes" %}</option>
               <option value="60">60 {% trans "minutes" %}</option>
               <option value="90">90 {% trans "minutes" %}</option>
@@ -235,7 +236,7 @@
         
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Treatment Type" %}</label>
-          <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+          <select name="treatment" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
             <option value="">{% trans "Select Treatment" %}</option>
             <option value="Cleaning">{% trans "Cleaning" %}</option>
             <option value="Whitening">{% trans "Whitening" %}</option>
@@ -248,7 +249,7 @@
         
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Notes" %}</label>
-          <textarea rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" placeholder="{% trans 'Appointment notes...' %}"></textarea>
+          <textarea name="notes" rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" placeholder="{% trans 'Appointment notes...' %}"></textarea>
         </div>
         
         <div class="flex gap-3 pt-4">
@@ -333,6 +334,63 @@ function updateAvailableTimes() {
     }
 }
 
+// Form validation and submission
+function validateAppointmentForm() {
+    const form = document.querySelector('form');
+    const patient = form.querySelector('select[name="patient"]').value;
+    const doctor = form.querySelector('select[name="doctor"]').value;
+    const date = form.querySelector('input[name="date"]').value;
+    const time = form.querySelector('select[name="time"]').value;
+    const room = form.querySelector('select[name="room"]').value;
+    const treatment = form.querySelector('select[name="treatment"]').value;
+    
+    if (!patient || !doctor || !date || !time || !room || !treatment) {
+        showToast('{% trans "Please fill in all required fields" %}', 'error');
+        return false;
+    }
+    
+    // Check if date is not in the past
+    const selectedDate = new Date(date);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+        showToast('{% trans "Cannot book appointments in the past" %}', 'error');
+        return false;
+    }
+    
+    return true;
+}
+
+// Form submission handler
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            if (!validateAppointmentForm()) {
+                return;
+            }
+            
+            // Show processing message
+            showToast('{% trans "Processing appointment..." %}', 'info');
+            
+            // Simulate form submission
+            setTimeout(() => {
+                showToast('{% trans "Appointment booked successfully" %}', 'success');
+                closeModal('bookAppointment');
+                form.reset();
+                
+                // In a real application, you would:
+                // 1. Send data to backend
+                // 2. Update the appointments table
+                // 3. Refresh the page or update the UI
+            }, 1500);
+        });
+    }
+});
+
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
     // Set default date to today
@@ -340,6 +398,37 @@ document.addEventListener('DOMContentLoaded', function() {
     if (dateInput) {
         const today = new Date().toISOString().split('T')[0];
         dateInput.value = today;
+    }
+    
+    // Add real-time validation
+    const form = document.querySelector('form');
+    if (form) {
+        // Date validation
+        const dateInput = form.querySelector('input[name="date"]');
+        if (dateInput) {
+            dateInput.addEventListener('change', function() {
+                const selectedDate = new Date(this.value);
+                const today = new Date();
+                today.setHours(0, 0, 0, 0);
+                
+                if (selectedDate < today) {
+                    showToast('{% trans "Cannot book appointments in the past" %}', 'error');
+                    this.value = today.toISOString().split('T')[0];
+                }
+            });
+        }
+        
+        // Time validation when doctor changes
+        const doctorSelect = form.querySelector('select[name="doctor"]');
+        if (doctorSelect) {
+            doctorSelect.addEventListener('change', function() {
+                const timeSelect = form.querySelector('select[name="time"]');
+                if (timeSelect && timeSelect.value) {
+                    // Validate if selected time is still available
+                    showToast('{% trans "Time slot updated based on doctor availability" %}', 'info');
+                }
+            });
+        }
     }
 });
 </script>

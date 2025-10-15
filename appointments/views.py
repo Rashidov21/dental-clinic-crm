@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Appointment
+from settings.models import Doctor, Treatment
 
 
 def appointment_list(request):
@@ -18,8 +19,8 @@ def appointment_create(request):
     if request.method == 'POST':
         appt = Appointment.objects.create(
             patient_id=request.POST.get('patient'),
-            doctor_name=request.POST.get('doctor_name', ''),
-            service=request.POST.get('service', ''),
+            doctor_name=request.POST.get('doctor', ''),
+            service=request.POST.get('treatment', ''),
             date=request.POST.get('date'),
             time=request.POST.get('time'),
             status=request.POST.get('status', 'scheduled'),
@@ -27,8 +28,8 @@ def appointment_create(request):
             notes=request.POST.get('notes', ''),
         )
         messages.success(request, 'Appointment created successfully!')
-        return redirect('appointment_list')
-    return render(request, 'appointments/appointment_form.html')
+        return redirect('book_page')
+    return redirect('book_page')
 
 
 def appointment_update(request, pk: int):
@@ -62,5 +63,19 @@ def appointment_delete(request, pk: int):
     appt.delete()
     messages.success(request, 'Appointment deleted successfully!')
     return redirect('appointment_list')
+
+
+def book_page(request):
+    """Book appointment page with doctors and treatments"""
+    doctors = Doctor.objects.filter(is_active=True).order_by('name')
+    treatments = Treatment.objects.filter(is_active=True).order_by('name')
+    appointments = Appointment.objects.all().order_by('-date', '-time')[:10]  # Recent appointments
+    
+    context = {
+        'doctors': doctors,
+        'treatments': treatments,
+        'appointments': appointments,
+    }
+    return render(request, 'book.html', context)
 
 

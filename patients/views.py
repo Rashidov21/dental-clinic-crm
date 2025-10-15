@@ -5,12 +5,12 @@ from .models import Patient
 
 def patient_list(request):
     patients = Patient.objects.all().order_by('full_name')
-    return render(request, 'patients/patient_list.html', {'patients': patients})
+    return render(request, 'clients.html', {'patients': patients})
 
 
 def patient_detail(request, pk: int):
     patient = get_object_or_404(Patient, pk=pk)
-    return render(request, 'patients/patient_detail.html', {'patient': patient})
+    return render(request, 'patient.html', {'patient': patient})
 
 
 def patient_update(request, pk: int):
@@ -25,7 +25,7 @@ def patient_update(request, pk: int):
         patient.save()
         messages.success(request, 'Patient updated successfully!')
         return redirect('patient_detail', pk=pk)
-    return render(request, 'patients/patient_form.html', {'patient': patient})
+    return redirect('patient_detail', pk=pk)
 
 
 def patient_delete(request, pk: int):

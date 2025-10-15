@@ -24,6 +24,7 @@ INSTALLED_APPS = [
     'payments',
     'receipts',
     'dashboard',
+    'settings',
 ]
 
 MIDDLEWARE = [
