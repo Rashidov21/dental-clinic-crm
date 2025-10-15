@@ -48,6 +48,51 @@
         <button onclick="showModal('addLead')" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700">+ {% trans "Add Lead" %}</button>
       </div>
 
+      <!-- Filter Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+        <div class="flex flex-col lg:flex-row gap-4">
+          <!-- Time Filters -->
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{% trans "Time:" %}</span>
+            <a href="?time=" class="px-3 py-1 rounded-full text-sm {% if not time_filter %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "All" %} ({{ total_leads }})
+            </a>
+            <a href="?time=today" class="px-3 py-1 rounded-full text-sm {% if time_filter == 'today' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Today" %} ({{ today_count }})
+            </a>
+            <a href="?time=week" class="px-3 py-1 rounded-full text-sm {% if time_filter == 'week' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "This Week" %} ({{ week_count }})
+            </a>
+            <a href="?time=month" class="px-3 py-1 rounded-full text-sm {% if time_filter == 'month' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "This Month" %} ({{ month_count }})
+            </a>
+          </div>
+          
+          <!-- Status Filters -->
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{% trans "Status:" %}</span>
+            <a href="?status=" class="px-3 py-1 rounded-full text-sm {% if not status_filter %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "All" %}
+            </a>
+            <a href="?status=new" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'new' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "New" %} ({{ status_counts.new|default:0 }})
+            </a>
+            <a href="?status=contacted" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'contacted' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Contacted" %} ({{ status_counts.contacted|default:0 }})
+            </a>
+            <a href="?status=qualified" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'qualified' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Qualified" %} ({{ status_counts.qualified|default:0 }})
+            </a>
+            <a href="?status=converted" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'converted' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Converted" %} ({{ status_counts.converted|default:0 }})
+            </a>
+            <a href="?status=lost" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'lost' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Lost" %} ({{ status_counts.lost|default:0 }})
+            </a>
+          </div>
+        </div>
+      </div>
+
       <!-- Filter Controls -->
       <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
         <div class="flex flex-col sm:flex-row gap-4">
