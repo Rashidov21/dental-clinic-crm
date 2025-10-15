@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib import messages
 from .models import Appointment
 from settings.models import Doctor, Treatment
+from patients.models import Patient
 
 
 def appointment_list(request):
@@ -160,11 +161,12 @@ def book_page(request):
     doctors = Doctor.objects.filter(is_active=True).order_by('name')
     treatments = Treatment.objects.filter(is_active=True).order_by('name')
     appointments = Appointment.objects.all().order_by('-date', '-time')[:10]  # Recent appointments
-    
+    patients = Patient.objects.all().order_by("-id")[:10]
     context = {
         'doctors': doctors,
         'treatments': treatments,
         'appointments': appointments,
+        'patients':patients
     }
     return render(request, 'book.html', context)
 

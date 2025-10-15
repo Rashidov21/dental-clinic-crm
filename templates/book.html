@@ -97,30 +97,18 @@
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
+              {% for appointment in appointments %}
               <tr>
-                <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">9:00 AM</td>
-                <td class="px-4 py-3 text-gray-900 dark:text-white">John Miller</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Dr. Carter" %}</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Room 1" %}</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Cleaning" %}</td>
-                <td class="px-4 py-3 text-right"><span class="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">{% trans "Scheduled" %}</span></td>
+                <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">{{appointment.time}}  </td>
+                <td class="px-4 py-3 text-gray-900 dark:text-white">{{appointment.patient.full_name}}</td>
+                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{appointment.doctor.name}}</td>
+                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{appointment.room}}</td>
+                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{appointment.treatment.name}}</td>
+                <td class="px-4 py-3 text-right"><span class="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">{{appointment.status}}</span></td>
               </tr>
-              <tr>
-                <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">10:30 AM</td>
-                <td class="px-4 py-3 text-gray-900 dark:text-white">Maria Gomez</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Dr. Lee" %}</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Room 2" %}</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Whitening" %}</td>
-                <td class="px-4 py-3 text-right"><span class="text-xs px-2 py-1 rounded bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-300">{% trans "In Progress" %}</span></td>
-              </tr>
-              <tr>
-                <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">2:00 PM</td>
-                <td class="px-4 py-3 text-gray-900 dark:text-white">Alex Johnson</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Dr. Patel" %}</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Room 3" %}</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% trans "Implant Consult" %}</td>
-                <td class="px-4 py-3 text-right"><span class="text-xs px-2 py-1 rounded bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300">{% trans "Scheduled" %}</span></td>
-              </tr>
+              {% empty %}
+              <h4 class="text-center">{% trans "No appointments scheduled for today" %}</h4>
+              {% endfor %}
             </tbody>
           </table>
         </div>
@@ -148,10 +136,9 @@
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Patient" %}</label>
             <select name="patient" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
               <option value="">{% trans "Select Patient" %}</option>
-              <option value="Alex Johnson">Alex Johnson</option>
-              <option value="Maria Gomez">Maria Gomez</option>
-              <option value="Noah Chen">Noah Chen</option>
-              <option value="John Miller">John Miller</option>
+              {% for patient in patients %}
+              <option value="{{patient.id}}">{{patient.full_name}}</option>
+              {% endfor %}
             </select>
           </div>
           <div>
@@ -173,7 +160,56 @@
           <div>
             <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Time" %}</label>
             <select id="appointmentTime" name="time" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
-              <option value="">{% trans "Select Time" %}</option>
+              <option value="00:00">00:00</option>
+              <option value="00:30">00:30</option>
+              <option value="01:00">01:00</option>
+              <option value="01:30">01:30</option>
+              <option value="02:00">02:00</option>
+              <option value="02:30">02:30</option>
+              <option value="03:00">03:00</option>
+              <option value="03:30">03:30</option>
+              <option value="04:00">04:00</option>
+              <option value="04:30">04:30</option>
+              <option value="05:00">05:00</option>
+              <option value="05:30">05:30</option>
+              <option value="06:00">06:00</option>
+              <option value="06:30">06:30</option>
+              <option value="07:00">07:00</option>
+              <option value="07:30">07:30</option>
+              <option value="08:00">08:00</option>
+              <option value="08:30">08:30</option>
+              <option value="09:00">09:00</option>
+              <option value="09:30">09:30</option>
+              <option value="10:00">10:00</option>
+              <option value="10:30">10:30</option>
+              <option value="11:00">11:00</option>
+              <option value="11:30">11:30</option>
+              <option value="12:00">12:00</option>
+              <option value="12:30">12:30</option>
+              <option value="13:00">13:00</option>
+              <option value="13:30">13:30</option>
+              <option value="14:00">14:00</option>
+              <option value="14:30">14:30</option>
+              <option value="15:00">15:00</option>
+              <option value="15:30">15:30</option>
+              <option value="16:00">16:00</option>
+              <option value="16:30">16:30</option>
+              <option value="17:00">17:00</option>
+              <option value="17:30">17:30</option>
+              <option value="18:00">18:00</option>
+              <option value="18:30">18:30</option>
+              <option value="19:00">19:00</option>
+              <option value="19:30">19:30</option>
+              <option value="20:00">20:00</option>
+              <option value="20:30">20:30</option>
+              <option value="21:00">21:00</option>
+              <option value="21:30">21:30</option>
+              <option value="22:00">22:00</option>
+              <option value="22:30">22:30</option>
+              <option value="23:00">23:00</option>
+              <option value="23:30">23:30</option>
+              
+
             </select>
           </div>
         </div>

@@ -11,12 +11,17 @@ from settings.models import Doctor, Treatment
 def dashboard_summary(request):
     today = localdate()
     total_patients = Patient.objects.count() or 0
-    total_appointments_today = Appointment.objects.filter(date=today).count() or 0
-    total_income = Payment.objects.filter(status='paid').aggregate(total=models.Sum('amount'))['total'] or 0
+    total_appointments_today = Appointment.objects.filter(date=today).count() 
+    appointments = Appointment.objects.filter(status='scheduled').order_by('time')[:7]
+    total_income = Payment.objects.filter(status='paid').aggregate(total=models.Sum('amount'))['total'] 
+    today_income = Payment.objects.filter(status='paid', date=today).aggregate(total=models.Sum('amount'))['total']
     # leads this calendar month
     first_day = today.replace(day=1)
-    leads_this_month = Lead.objects.filter(created_at__date__gte=first_day).count() or 0
-    
+    leads_this_month = Lead.objects.filter(created_at__date__gte=first_day).count()
+    new_leads = Lead.objects.filter(status='new').count()
+    contacted_leads = Lead.objects.filter(status='contacted').count()
+    converted_leads = Lead.objects.filter(status='converted').count()
+    lost_leads = Lead.objects.filter(status='lost').count()
     # Settings data
     total_doctors = Doctor.objects.filter(is_active=True).count()
     total_treatments = Treatment.objects.filter(is_active=True).count()
@@ -29,11 +34,17 @@ def dashboard_summary(request):
         'total_patients': total_patients,
         'total_appointments_today': total_appointments_today,
         'total_income': float(total_income),
+        'today_income': today_income,
         'leads_this_month': leads_this_month,
         'total_doctors': total_doctors,
         'total_treatments': total_treatments,
         'doctors': doctors,
         'treatments': treatments,
+        'appointments': appointments,
+        'new_leads': new_leads,
+        'contacted_leads': contacted_leads,
+        'converted_leads': converted_leads,
+        'lost_leads': lost_leads,
     }
     return render(request, 'index.html', context)
 
@@ -45,10 +56,10 @@ def doctor_dashboard(request):
         
         # Get all active doctors
         doctors = Doctor.objects.filter(is_active=True).order_by('name')
-        
+        print(doctors)
         # Get today's appointments
         today_appointments = Appointment.objects.filter(date=today).order_by('time')
-        
+        print(today_appointments)
         # Get upcoming appointments (next 7 days)
         from datetime import timedelta
         next_week = today + timedelta(days=7)
