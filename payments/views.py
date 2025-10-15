@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Payment
 from datetime import datetime
 from settings.models import Doctor, Treatment
@@ -25,9 +26,29 @@ def payment_list(request):
         except ValueError:
             pass
     
+    # Pagination
+    paginator = Paginator(qs, 10)  # Show 10 payments per page
+    page = request.GET.get('page')
+    
+    try:
+        payments = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        payments = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        payments = paginator.page(paginator.num_pages)
+    
     doctors = Doctor.objects.filter(is_active=True).order_by('name')
     treatments = Treatment.objects.filter(is_active=True).order_by('name')
-    return render(request, 'payments.html', {'payments': qs, 'doctors': doctors, 'treatments': treatments})
+    
+    context = {
+        'payments': payments,
+        'doctors': doctors,
+        'treatments': treatments,
+        'paginator': paginator,
+    }
+    return render(request, 'payments.html', context)
 
 
 def payment_create(request):

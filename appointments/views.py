@@ -5,14 +5,84 @@ from settings.models import Doctor, Treatment
 
 
 def appointment_list(request):
-    qs = Appointment.objects.select_related('patient').all().order_by('-date', '-time')
-    patient_id = request.GET.get('patient')
-    status = request.GET.get('status')
-    if patient_id:
-        qs = qs.filter(patient_id=patient_id)
-    if status:
-        qs = qs.filter(status=status)
-    return render(request, 'calendar.html', {'appointments': qs})
+    from django.utils import timezone
+    from datetime import datetime, timedelta
+    
+    # Get filter parameters
+    status_filter = request.GET.get('status', '')
+    doctor_filter = request.GET.get('doctor', '')
+    date_filter = request.GET.get('date', '')
+    time_filter = request.GET.get('time', '')
+    
+    # Base queryset
+    appointments = Appointment.objects.select_related('patient', 'doctor', 'treatment').all().order_by('-date', '-time')
+    
+    # Apply status filter
+    if status_filter:
+        appointments = appointments.filter(status=status_filter)
+    
+    # Apply doctor filter
+    if doctor_filter:
+        appointments = appointments.filter(doctor_id=doctor_filter)
+    
+    # Apply date filter
+    if date_filter:
+        if date_filter == 'today':
+            appointments = appointments.filter(date=timezone.now().date())
+        elif date_filter == 'week':
+            week_start = timezone.now() - timedelta(days=timezone.now().weekday())
+            appointments = appointments.filter(date__gte=week_start.date())
+        elif date_filter == 'month':
+            month_start = timezone.now().replace(day=1)
+            appointments = appointments.filter(date__gte=month_start.date())
+        elif date_filter == 'upcoming':
+            appointments = appointments.filter(date__gte=timezone.now().date())
+    
+    # Apply time filter
+    if time_filter:
+        if time_filter == 'morning':
+            appointments = appointments.filter(time__lt='12:00')
+        elif time_filter == 'afternoon':
+            appointments = appointments.filter(time__gte='12:00', time__lt='17:00')
+        elif time_filter == 'evening':
+            appointments = appointments.filter(time__gte='17:00')
+    
+    # Get counts for filter buttons
+    total_appointments = Appointment.objects.count()
+    today_count = Appointment.objects.filter(date=timezone.now().date()).count()
+    week_start = timezone.now() - timedelta(days=timezone.now().weekday())
+    week_count = Appointment.objects.filter(date__gte=week_start.date()).count()
+    month_start = timezone.now().replace(day=1)
+    month_count = Appointment.objects.filter(date__gte=month_start.date()).count()
+    upcoming_count = Appointment.objects.filter(date__gte=timezone.now().date()).count()
+    
+    # Get status counts
+    status_counts = {
+        'scheduled': Appointment.objects.filter(status='scheduled').count(),
+        'completed': Appointment.objects.filter(status='completed').count(),
+        'cancelled': Appointment.objects.filter(status='cancelled').count(),
+        'no_show': Appointment.objects.filter(status='no_show').count(),
+    }
+    
+    # Get doctors for filter dropdown
+    from settings.models import Doctor
+    doctors = Doctor.objects.filter(is_active=True).order_by('name')
+    
+    context = {
+        'appointments': appointments,
+        'status_filter': status_filter,
+        'doctor_filter': doctor_filter,
+        'date_filter': date_filter,
+        'time_filter': time_filter,
+        'total_appointments': total_appointments,
+        'today_count': today_count,
+        'week_count': week_count,
+        'month_count': month_count,
+        'upcoming_count': upcoming_count,
+        'status_counts': status_counts,
+        'doctors': doctors,
+    }
+    return render(request, 'calendar.html', context)
 
 
 def appointment_create(request):

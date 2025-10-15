@@ -16,7 +16,7 @@ urlpatterns = [
     # UI pages
     path('dashboard/', include('dashboard.urls')),
     path('leads/page/', include('leads.urls')),
-    path('calendar/', TemplateView.as_view(template_name='calendar.html'), name='calendar_page'),
+    path('calendar/', include('appointments.urls')),
     path('clients/', include('patients.urls')),
     path('payments/page/', include('payments.urls')),
     path('book/', appointment_views.book_page, name='book_page'),

@@ -4,7 +4,8 @@
 {% block title %}{% trans "Dental CRM — Clients" %}{% endblock %}
 {% block content %}
 <div class="min-h-screen flex">
-  <aside class="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/60 backdrop-blur">
+  <aside
+    class="hidden md:flex md:w-64 lg:w-72 flex-col border-r border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-gray-950/60 backdrop-blur">
     <div class="h-16 flex items-center gap-2 px-4 border-b border-gray-200 dark:border-gray-800">
       <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
       <div>
@@ -13,21 +14,32 @@
       </div>
     </div>
     <nav class="p-3 space-y-1 text-sm">
-      <a href="/dashboard/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Dashboard" %}</a>
-      <a href="/leads/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Leads" %}</a>
-      <a href="/calendar/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Calendar" %}</a>
-      <a href="/clients/" class="flex items-center gap-3 px-3 py-2 rounded-lg bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-200 font-medium">{% trans "Clients & Database" %}</a>
-      <a href="/payments/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Payments" %}</a>
+      <a href="/dashboard/"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+        {% trans "Dashboard" %}</a>
+      <a href="/leads/page/"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">
+        {% trans "Leads" %}</a>
+      <a href="/calendar/"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Calendar" %}</a>
+      <a href="/clients/"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg bg-teal-50 text-teal-700 dark:bg-teal-900/30 dark:text-teal-200 font-medium">{% trans "Clients & Database" %}</a>
+      <a href="/payments/page/"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Payments" %}</a>
       <a href="/book/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Book Appointment" %}</a>
-      <a href="/doctor/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Doctor Dashboard" %}</a>
-      <a href="/patient/page/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Patient" %}</a>
-      <a href="/settings/" class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Settings" %}</a>
+      <a href="/doctor/"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Doctor Dashboard" %}</a>
+      <a href="/patient/page/"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Patient" %}</a>
+      <a href="/settings/"
+        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800">{% trans "Settings" %}</a>
     </nav>
     <div class="mt-auto p-4 text-xs text-gray-500 dark:text-gray-400">© 2025 {% trans "Dental Clinic" %}</div>
   </aside>
 
   <div class="flex-1 flex flex-col min-w-0">
-    <header class="h-16 flex items-center justify-between px-4 md:px-6 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
+    <header
+      class="h-16 flex items-center justify-between px-4 md:px-6 bg-white dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800">
       <div class="flex items-center gap-3 md:hidden">
         <div class="w-9 h-9 rounded-lg bg-teal-600 flex items-center justify-center text-white font-bold">DC</div>
         <div class="font-semibold">{% trans "Dental CRM" %}</div>
@@ -40,21 +52,91 @@
     </header>
 
     <main class="p-4 md:p-6 space-y-4">
-      <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-3 text-sm">
-          <input id="searchName" class="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="{% trans "Search by name" %}" onkeyup="filterClients()" />
-          <input id="searchPhone" class="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" placeholder="{% trans "Phone" %}" onkeyup="filterClients()" />
-          <select id="filterDoctor" class="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" onchange="filterClients()">
-            <option value="">{% trans "All Doctors" %}</option>
-            <option value="Dr. Carter">{% trans "Dr. Carter" %}</option>
-            <option value="Dr. Lee">{% trans "Dr. Lee" %}</option>
-            <option value="Dr. Patel">{% trans "Dr. Patel" %}</option>
-          </select>
-          <input id="filterDate" type="date" class="rounded-lg border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 px-3 py-2" onchange="filterClients()" />
+      <div>
+        <h1 class="text-lg font-semibold">{% trans "Clients & Database" %}</h1>
+        <p class="text-sm text-gray-500">{% trans "Manage your patient database" %}</p>
+      </div>
+
+      <!-- Filter Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+        <div class="flex flex-col lg:flex-row gap-4">
+          <!-- Status Filters -->
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{% trans "Status:" %}</span>
+            <a href="?status=" class="px-3 py-1 rounded-full text-sm {% if not status_filter %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "All" %} ({{ total_patients }})
+            </a>
+            <a href="?status=has_appointments" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'has_appointments' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Has Appointments" %} ({{ has_appointments_count }})
+            </a>
+            <a href="?status=no_appointments" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'no_appointments' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "No Appointments" %} ({{ no_appointments_count }})
+            </a>
+            <a href="?status=upcoming_appointments" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'upcoming_appointments' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Upcoming" %} ({{ upcoming_count }})
+            </a>
+            <a href="?status=completed_appointments" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'completed_appointments' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Completed" %} ({{ completed_count }})
+            </a>
+          </div>
+          
+          <!-- Date Filters -->
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{% trans "Date:" %}</span>
+            <a href="?date=" class="px-3 py-1 rounded-full text-sm {% if not date_filter %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "All" %}
+            </a>
+            <a href="?date=today" class="px-3 py-1 rounded-full text-sm {% if date_filter == 'today' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Today" %} ({{ today_count }})
+            </a>
+            <a href="?date=week" class="px-3 py-1 rounded-full text-sm {% if date_filter == 'week' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "This Week" %} ({{ week_count }})
+            </a>
+            <a href="?date=month" class="px-3 py-1 rounded-full text-sm {% if date_filter == 'month' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "This Month" %} ({{ month_count }})
+            </a>
+            <a href="?date=recent" class="px-3 py-1 rounded-full text-sm {% if date_filter == 'recent' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Recent" %} ({{ recent_count }})
+            </a>
+          </div>
         </div>
-        <div class="mt-3 flex items-center justify-between">
-          <button onclick="clearFilters()" class="text-sm text-teal-600 dark:text-teal-400 hover:text-teal-800 dark:hover:text-teal-200">{% trans "Clear Filters" %}</button>
-          <div id="filterResults" class="text-sm text-gray-500 dark:text-gray-400"></div>
+        
+        <!-- Additional Filters -->
+        <div class="mt-4 flex flex-col sm:flex-row gap-4">
+          <!-- Search Filter -->
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Search" %}</label>
+            <form method="get" class="flex gap-2">
+              <input type="text" name="search" value="{{ search_query }}" placeholder="{% trans 'Search by name, phone, or email' %}" 
+                     class="flex-1 px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <button type="submit" class="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition-colors">
+                {% trans "Search" %}
+              </button>
+              {% if search_query %}
+              <a href="?" class="px-4 py-2 text-gray-600 dark:text-gray-400 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                {% trans "Clear" %}
+              </a>
+              {% endif %}
+            </form>
+          </div>
+          
+          <!-- Doctor Filter -->
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Filter by Doctor" %}</label>
+            <select onchange="filterByDoctor(this.value)" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <option value="">{% trans "All Doctors" %}</option>
+              {% for doctor in doctors %}
+              <option value="{{ doctor.id }}" {% if doctor_filter == doctor.id|stringformat:"s" %}selected{% endif %}>{{ doctor.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <!-- Clear Filters -->
+          <div class="flex items-end">
+            <button onclick="clearFilters()" class="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+              {% trans "Clear All Filters" %}
+            </button>
+          </div>
         </div>
       </div>
 
@@ -72,15 +154,30 @@
             </thead>
             <tbody id="clientsTableBody" class="divide-y divide-gray-200 dark:divide-gray-800">
               {% for patient in patients %}
-              <tr class="client-row" data-name="{{ patient.full_name }}" data-phone="{{ patient.phone }}" data-doctor="{% if patient.appointments.first.doctor %}{{ patient.appointments.first.doctor.name }}{% else %}{% trans 'No Doctor' %}{% endif %}" data-date="{{ patient.appointments.first.date|date:'Y-m-d'|default:'N/A' }}">
-                <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">{{ patient.full_name }}</td>
+              <tr class="client" data-name="{{ patient.full_name }}" data-phone="{{ patient.phone }}"
+                data-doctor="{% if patient.appointments.first.doctor %}{{ patient.appointments.first.doctor.name }}{% else %}{% trans 'No Doctor' %}{% endif %}"
+                data-date="{{ patient.appointments.first.date|date:'Y-m-d'|default:'N/A' }}">
+                <td class="px-4 py-3 font-medium text-gray-900 dark:text-white">
+                  <a href="{% url 'patient_detail' patient.id %}" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                    {{ patient.full_name }}
+                  </a>
+                </td>
                 <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ patient.phone }}</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{% if patient.appointments.first.doctor %}{{ patient.appointments.first.doctor.name }}{% else %}{% trans 'No Doctor' %}{% endif %}</td>
-                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">{{ patient.appointments.first.date|date:'M d, Y'|default:'N/A' }}</td>
+                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">
+                  {% if patient.appointments.first.doctor %}
+                    {{patient.appointments.first.doctor.name }}
+                  {% else %}
+                    {% trans 'No Doctor' %}
+                  {% endif %}</td>
+                <td class="px-4 py-3 text-gray-700 dark:text-gray-300">
+                  {{ patient.appointments.first.date|date:'M d,Y'|default:'N/A' }}</td>
                 <td class="px-4 py-3 text-right space-x-2">
-                  <a href="/patient/page/{{ patient.id }}/" class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "View History" %}</a>
-                  <button onclick="showModal('addVisit', '{{ patient.full_name|escapejs }}')" class="px-3 py-1 rounded bg-teal-600 text-white hover:bg-teal-700 text-xs">{% trans "Add Visit" %}</button>
-                  <button onclick="showModal('editClient', '{{ patient.full_name|escapejs }}')" class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "Edit Info" %}</button>
+                  <a href="/patient/page/{{ patient.id }}/"
+                    class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "View History" %}</a>
+                  <button onclick="showModal('addVisit', '{{ patient.full_name|escapejs }}')"
+                    class="px-3 py-1 rounded bg-teal-600 text-white hover:bg-teal-700 text-xs">{% trans "Add Visit" %}</button>
+                  <button onclick="showModal('editClient', '{{ patient.full_name|escapejs }}')"
+                    class="px-3 py-1 rounded bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 text-xs">{% trans "Edit Info" %}</button>
                 </td>
               </tr>
               {% empty %}
@@ -128,15 +225,22 @@
       <form class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Patient" %}</label>
-          <input type="text" id="visitPatient" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" readonly>
+          <input type="text" id="visitPatient"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+            readonly>
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Visit Date" %}</label>
-          <input type="date" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Visit Date"
+            %}</label>
+          <input type="date"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+            required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Doctor" %}</label>
-          <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+          <select
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+            required>
             <option>{% trans "Dr. Carter" %}</option>
             <option>{% trans "Dr. Lee" %}</option>
             <option>{% trans "Dr. Patel" %}</option>
@@ -144,7 +248,9 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Treatment" %}</label>
-          <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+          <select
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+            required>
             <option>{% trans "Cleaning" %}</option>
             <option>{% trans "Whitening" %}</option>
             <option>{% trans "Filling" %}</option>
@@ -154,11 +260,16 @@
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Notes" %}</label>
-          <textarea rows="3" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" placeholder="{% trans 'Visit notes...' %}"></textarea>
+          <textarea rows="3"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+            placeholder="{% trans 'Visit notes...' %}"></textarea>
         </div>
         <div class="flex gap-3 pt-4">
-          <button type="button" onclick="closeModal('addVisit')" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">{% trans "Cancel" %}</button>
-          <button type="submit" class="flex-1 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">{% trans "Add Visit" %}</button>
+          <button type="button" onclick="closeModal('addVisit')"
+            class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">{%
+            trans "Cancel" %}</button>
+          <button type="submit" class="flex-1 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">{% trans
+            "Add Visit" %}</button>
         </div>
       </form>
     </div>
@@ -180,27 +291,37 @@
       <form class="space-y-4">
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Full Name" %}</label>
-          <input type="text" id="editClientName" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+          <input type="text" id="editClientName"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+            required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Phone" %}</label>
-          <input type="tel" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white" required>
+          <input type="tel"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white"
+            required>
         </div>
         <div>
           <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Email" %}</label>
-          <input type="email" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+          <input type="email"
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
         </div>
         <div>
-          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Preferred Doctor" %}</label>
-          <select class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Preferred Doctor"
+            %}</label>
+          <select
+            class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-800 dark:text-white">
             <option>{% trans "Dr. Carter" %}</option>
             <option>{% trans "Dr. Lee" %}</option>
             <option>{% trans "Dr. Patel" %}</option>
           </select>
         </div>
         <div class="flex gap-3 pt-4">
-          <button type="button" onclick="closeModal('editClient')" class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">{% trans "Cancel" %}</button>
-          <button type="submit" class="flex-1 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">{% trans "Save Changes" %}</button>
+          <button type="button" onclick="closeModal('editClient')"
+            class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-100 dark:bg-gray-700 rounded-lg hover:bg-gray-200 dark:hover:bg-gray-600">{%
+            trans "Cancel" %}</button>
+          <button type="submit" class="flex-1 px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700">{% trans
+            "Save Changes" %}</button>
         </div>
       </form>
     </div>
@@ -208,92 +329,47 @@
 </div>
 
 <script>
-// Filter functionality
-function filterClients() {
-    const nameFilter = document.getElementById('searchName').value.toLowerCase();
-    const phoneFilter = document.getElementById('searchPhone').value.toLowerCase();
-    const doctorFilter = document.getElementById('filterDoctor').value;
-    const dateFilter = document.getElementById('filterDate').value;
-    
-    const rows = document.querySelectorAll('.client-row');
-    let visibleCount = 0;
-    
-    rows.forEach(row => {
-        const name = row.dataset.name.toLowerCase();
-        const phone = row.dataset.phone.toLowerCase();
-        const doctor = row.dataset.doctor;
-        const date = row.dataset.date;
-        
-        const nameMatch = !nameFilter || name.includes(nameFilter);
-        const phoneMatch = !phoneFilter || phone.includes(phoneFilter);
-        const doctorMatch = !doctorFilter || doctor === doctorFilter;
-        const dateMatch = !dateFilter || date === dateFilter;
-        
-        if (nameMatch && phoneMatch && doctorMatch && dateMatch) {
-            row.style.display = '';
-            visibleCount++;
-        } else {
-            row.style.display = 'none';
-        }
-    });
-    
-    // Update filter results
-    const resultsDiv = document.getElementById('filterResults');
-    if (visibleCount === rows.length) {
-        resultsDiv.textContent = '';
-    } else {
-        resultsDiv.textContent = `${visibleCount} of ${rows.length} clients shown`;
-    }
-}
+  // Filter by doctor
+  function filterByDoctor(doctorId) {
+      const url = new URL(window.location);
+      if (doctorId) {
+          url.searchParams.set('doctor', doctorId);
+      } else {
+          url.searchParams.delete('doctor');
+      }
+      window.location.href = url.toString();
+  }
 
-// Clear all filters
-function clearFilters() {
-    document.getElementById('searchName').value = '';
-    document.getElementById('searchPhone').value = '';
-    document.getElementById('filterDoctor').value = '';
-    document.getElementById('filterDate').value = '';
-    filterClients();
-}
+  // Clear all filters
+  function clearFilters() {
+      window.location.href = window.location.pathname;
+  }
 
-// Modal functionality
-function showModal(modalId, clientName = '') {
+  // Modal functionality
+  function showModal(modalId, clientName = '') {
     const modal = document.getElementById(modalId);
     modal.style.display = 'flex';
     document.body.style.overflow = 'hidden';
-    
+
     // Pre-populate client name if provided
     if (clientName && modalId === 'addVisit') {
-        document.getElementById('visitPatient').value = clientName;
+      document.getElementById('visitPatient').value = clientName;
     } else if (clientName && modalId === 'editClient') {
-        document.getElementById('editClientName').value = clientName;
+      document.getElementById('editClientName').value = clientName;
     }
-}
+  }
 
-function closeModal(modalId) {
+  function closeModal(modalId) {
     document.getElementById(modalId).style.display = 'none';
     document.body.style.overflow = 'auto';
-}
+  }
 
-// Close modal when clicking outside
-document.addEventListener('click', function(event) {
+  // Close modal when clicking outside
+  document.addEventListener('click', function (event) {
     if (event.target.classList.contains('modal')) {
-        closeModal(event.target.id);
+      closeModal(event.target.id);
     }
-});
+  });
 
-// Initialize filters on page load
-document.addEventListener('DOMContentLoaded', function() {
-    // Set default date to today
-    const dateInput = document.getElementById('filterDate');
-    if (dateInput && !dateInput.value) {
-        const today = new Date().toISOString().split('T')[0];
-        dateInput.value = today;
-    }
-    
-    // Initialize filter results
-    filterClients();
-});
 </script>
 {% endblock %}
-
-

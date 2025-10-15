@@ -41,34 +41,140 @@
     <main class="p-4 md:p-6 space-y-4">
       <div>
         <h1 class="text-lg font-semibold">{% trans "Schedule" %}</h1>
-        <p class="text-sm text-gray-500">{% trans "Overview of today's appointments by doctor" %}</p>
+        <p class="text-sm text-gray-500">{% trans "Overview of appointments by doctor" %}</p>
+      </div>
+
+      <!-- Filter Section -->
+      <div class="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
+        <div class="flex flex-col lg:flex-row gap-4">
+          <!-- Date Filters -->
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{% trans "Date:" %}</span>
+            <a href="?date=" class="px-3 py-1 rounded-full text-sm {% if not date_filter %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "All" %} ({{ total_appointments }})
+            </a>
+            <a href="?date=today" class="px-3 py-1 rounded-full text-sm {% if date_filter == 'today' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Today" %} ({{ today_count }})
+            </a>
+            <a href="?date=week" class="px-3 py-1 rounded-full text-sm {% if date_filter == 'week' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "This Week" %} ({{ week_count }})
+            </a>
+            <a href="?date=month" class="px-3 py-1 rounded-full text-sm {% if date_filter == 'month' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "This Month" %} ({{ month_count }})
+            </a>
+            <a href="?date=upcoming" class="px-3 py-1 rounded-full text-sm {% if date_filter == 'upcoming' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Upcoming" %} ({{ upcoming_count }})
+            </a>
+          </div>
+          
+          <!-- Status Filters -->
+          <div class="flex flex-wrap gap-2">
+            <span class="text-sm font-medium text-gray-700 dark:text-gray-300">{% trans "Status:" %}</span>
+            <a href="?status=" class="px-3 py-1 rounded-full text-sm {% if not status_filter %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "All" %}
+            </a>
+            <a href="?status=scheduled" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'scheduled' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Scheduled" %} ({{ status_counts.scheduled|default:0 }})
+            </a>
+            <a href="?status=completed" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'completed' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Completed" %} ({{ status_counts.completed|default:0 }})
+            </a>
+            <a href="?status=cancelled" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'cancelled' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "Cancelled" %} ({{ status_counts.cancelled|default:0 }})
+            </a>
+            <a href="?status=no_show" class="px-3 py-1 rounded-full text-sm {% if status_filter == 'no_show' %}bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200{% else %}bg-gray-100 text-gray-700 dark:bg-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600{% endif %}">
+              {% trans "No Show" %} ({{ status_counts.no_show|default:0 }})
+            </a>
+          </div>
+        </div>
+        
+        <!-- Additional Filters -->
+        <div class="mt-4 flex flex-col sm:flex-row gap-4">
+          <!-- Doctor Filter -->
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Filter by Doctor" %}</label>
+            <select onchange="filterByDoctor(this.value)" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <option value="">{% trans "All Doctors" %}</option>
+              {% for doctor in doctors %}
+              <option value="{{ doctor.id }}" {% if doctor_filter == doctor.id|stringformat:"s" %}selected{% endif %}>{{ doctor.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          
+          <!-- Time Filter -->
+          <div class="flex-1">
+            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">{% trans "Filter by Time" %}</label>
+            <select onchange="filterByTime(this.value)" class="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-teal-500 focus:border-transparent dark:bg-gray-700 dark:text-white">
+              <option value="">{% trans "All Times" %}</option>
+              <option value="morning" {% if time_filter == 'morning' %}selected{% endif %}>{% trans "Morning" %} (Before 12:00)</option>
+              <option value="afternoon" {% if time_filter == 'afternoon' %}selected{% endif %}>{% trans "Afternoon" %} (12:00-17:00)</option>
+              <option value="evening" {% if time_filter == 'evening' %}selected{% endif %}>{% trans "Evening" %} (After 17:00)</option>
+            </select>
+          </div>
+          
+          <!-- Clear Filters -->
+          <div class="flex items-end">
+            <button onclick="clearFilters()" class="px-4 py-2 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+              {% trans "Clear Filters" %}
+            </button>
+          </div>
+        </div>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+        {% for appointment in appointments %}
         <div class="bg-white dark:bg-gray-950 border border-gray-200 dark:border-gray-800 rounded-xl p-4">
-          <div class="font-semibold">{% trans "Dr. Carter" %}</div>
+          <div class="font-semibold">
+            {{appointment.doctor.name}}
+          </div>
           <ul class="mt-3 space-y-3 text-sm">
             <li class="flex items-center justify-between gap-3">
               <div>
-                <div class="font-medium">John Miller — Cleaning</div>
-                <div class="text-xs text-gray-500">10:00 AM</div>
+                <div class="font-medium"><a href="/clients/{{appointment.patient.id}}/" class="font-medium text-blue-600 dark:text-blue-500 hover:underline"> {{appointment.patient.full_name}}</a> — {{appointment.treatment.name}}</div>
+                <div class="text-xs text-gray-500">{{appointment.time}}</div>
               </div>
-              <label class="inline-flex items-center gap-2 text-xs"><input type="checkbox" class="rounded"/> {% trans "Done" %}</label>
+              <label class="inline-flex items-center gap-2 text-xs">
+                <input type="checkbox" class="rounded"/> {% trans "Done" %}</label>
             </li>
-            <li class="flex items-center justify-between gap-3">
-              <div>
-                <div class="font-medium">Eva Rossi — Checkup</div>
-                <div class="text-xs text-gray-500">11:15 AM</div>
-              </div>
-              <label class="inline-flex items-center gap-2 text-xs"><input type="checkbox" class="rounded"/> {% trans "Done" %}</label>
-            </li>
+
           </ul>
-        </div>
+        </div> 
+        {% endfor %}
+       
 
       </div>
     </main>
   </div>
 </div>
+
+<script>
+// Filter by doctor
+function filterByDoctor(doctorId) {
+    const url = new URL(window.location);
+    if (doctorId) {
+        url.searchParams.set('doctor', doctorId);
+    } else {
+        url.searchParams.delete('doctor');
+    }
+    window.location.href = url.toString();
+}
+
+// Filter by time
+function filterByTime(timeValue) {
+    const url = new URL(window.location);
+    if (timeValue) {
+        url.searchParams.set('time', timeValue);
+    } else {
+        url.searchParams.delete('time');
+    }
+    window.location.href = url.toString();
+}
+
+// Clear all filters
+function clearFilters() {
+    window.location.href = window.location.pathname;
+}
+</script>
 {% endblock %}
 
 

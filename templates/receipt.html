@@ -17,71 +17,132 @@
     <div class="flex items-center justify-between">
       <div>
         <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Dental Clinic" %}</div>
-        <div class="text-xl font-semibold text-gray-900 dark:text-white">{% trans "Receipt" %}</div>
+        <div class="text-xl font-semibold text-gray-900 dark:text-white">
+          {% if is_payment_receipt %}{% trans "Payment Receipt" %}{% else %}{% trans "Receipt" %}{% endif %}
+        </div>
       </div>
-      <div class="text-sm text-gray-500 dark:text-gray-400">{% trans "Date" %}: Oct 14, 2025</div>
+      <div class="text-sm text-gray-500 dark:text-gray-400">
+        {% trans "Date" %}: 
+        {% if is_payment_receipt %}
+          {{ receipt_data.date|date:'M d, Y' }}
+        {% else %}
+          Oct 14, 2025
+        {% endif %}
+      </div>
     </div>
     <hr class="my-4 border-gray-200 dark:border-gray-700"/>
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
       <div>
         <div class="text-gray-500 dark:text-gray-400">{% trans "Patient" %}</div>
-        <div class="font-medium text-gray-900 dark:text-white">John Miller</div>
+        <div class="font-medium text-gray-900 dark:text-white">
+          {% if is_payment_receipt %}
+            {{ receipt_data.patient.full_name }}
+          {% else %}
+            John Miller
+          {% endif %}
+        </div>
         <div class="text-gray-500 dark:text-gray-400">{% trans "Phone" %}</div>
-        <div class="text-gray-700 dark:text-gray-300">(555) 123-4567</div>
+        <div class="text-gray-700 dark:text-gray-300">
+          {% if is_payment_receipt %}
+            {{ receipt_data.patient.phone }}
+          {% else %}
+            (555) 123-4567
+          {% endif %}
+        </div>
       </div>
       <div>
-        <div class="text-gray-500 dark:text-gray-400">{% trans "Doctor" %}</div>
-        <div class="font-medium text-gray-900 dark:text-white">Dr. Emily Carter</div>
-        <div class="text-gray-500 dark:text-gray-400">{% trans "Appointment" %}</div>
-        <div class="text-gray-700 dark:text-gray-300">10:00 AM — {% trans "Cleaning" %}</div>
+        {% if is_payment_receipt %}
+          <div class="text-gray-500 dark:text-gray-400">{% trans "Payment Type" %}</div>
+          <div class="font-medium text-gray-900 dark:text-white">{{ receipt_data.payment_type }}</div>
+          <div class="text-gray-500 dark:text-gray-400">{% trans "Status" %}</div>
+          <div class="text-gray-700 dark:text-gray-300">{{ receipt_data.status }}</div>
+        {% else %}
+          <div class="text-gray-500 dark:text-gray-400">{% trans "Doctor" %}</div>
+          <div class="font-medium text-gray-900 dark:text-white">Dr. Emily Carter</div>
+          <div class="text-gray-500 dark:text-gray-400">{% trans "Appointment" %}</div>
+          <div class="text-gray-700 dark:text-gray-300">10:00 AM — {% trans "Cleaning" %}</div>
+        {% endif %}
       </div>
     </div>
     <div class="mt-6 overflow-x-auto">
       <table class="min-w-full text-sm">
         <thead class="bg-gray-50 dark:bg-gray-900/60">
           <tr>
-            <th class="text-left px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Procedure" %}</th>
-            <th class="text-left px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Qty" %}</th>
-            <th class="text-right px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Price" %}</th>
-            <th class="text-right px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Total" %}</th>
+            {% if is_payment_receipt %}
+              <th class="text-left px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Description" %}</th>
+              <th class="text-right px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Amount" %}</th>
+            {% else %}
+              <th class="text-left px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Procedure" %}</th>
+              <th class="text-left px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Qty" %}</th>
+              <th class="text-right px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Price" %}</th>
+              <th class="text-right px-3 py-2 text-gray-600 dark:text-gray-300">{% trans "Total" %}</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
-          <tr>
-            <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Scaling" %}</td>
-            <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
-            <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$60.00</td>
-            <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$60.00</td>
-          </tr>
-          <tr>
-            <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Polishing" %}</td>
-            <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
-            <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$40.00</td>
-            <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$40.00</td>
-          </tr>
-          <tr>
-            <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Fluoride Treatment" %}</td>
-            <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
-            <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$25.00</td>
-            <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$25.00</td>
-          </tr>
+          {% if is_payment_receipt %}
+            <tr>
+              <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Payment" %} - {{ receipt_data.payment_type }}</td>
+              <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">${{ receipt_data.amount }}</td>
+            </tr>
+            {% if receipt_data.notes %}
+              <tr>
+                <td class="px-3 py-2 text-gray-900 dark:text-white">{{ receipt_data.notes }}</td>
+                <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">-</td>
+              </tr>
+            {% endif %}
+          {% else %}
+            <tr>
+              <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Scaling" %}</td>
+              <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
+              <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$60.00</td>
+              <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$60.00</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Polishing" %}</td>
+              <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
+              <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$40.00</td>
+              <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$40.00</td>
+            </tr>
+            <tr>
+              <td class="px-3 py-2 text-gray-900 dark:text-white">{% trans "Fluoride Treatment" %}</td>
+              <td class="px-3 py-2 text-gray-700 dark:text-gray-300">1</td>
+              <td class="px-3 py-2 text-right text-gray-700 dark:text-gray-300">$25.00</td>
+              <td class="px-3 py-2 text-right text-gray-900 dark:text-white font-medium">$25.00</td>
+            </tr>
+          {% endif %}
         </tbody>
       </table>
     </div>
     <div class="mt-4 flex items-center justify-end">
       <div class="w-full sm:w-80">
-        <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
-          <div>{% trans "Subtotal" %}</div>
-          <div class="font-medium text-gray-900 dark:text-white">$125.00</div>
-        </div>
-        <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
-          <div>{% trans "Tax" %}</div>
-          <div class="font-medium text-gray-900 dark:text-white">$0.00</div>
-        </div>
-        <div class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2 flex items-center justify-between font-semibold text-gray-900 dark:text-white">
-          <div>{% trans "Total" %}</div>
-          <div>$125.00</div>
-        </div>
+        {% if is_payment_receipt %}
+          <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
+            <div>{% trans "Payment Amount" %}</div>
+            <div class="font-medium text-gray-900 dark:text-white">${{ receipt_data.amount }}</div>
+          </div>
+          <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
+            <div>{% trans "Payment Type" %}</div>
+            <div class="font-medium text-gray-900 dark:text-white">{{ receipt_data.payment_type }}</div>
+          </div>
+          <div class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2 flex items-center justify-between font-semibold text-gray-900 dark:text-white">
+            <div>{% trans "Total Paid" %}</div>
+            <div>${{ receipt_data.amount }}</div>
+          </div>
+        {% else %}
+          <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
+            <div>{% trans "Subtotal" %}</div>
+            <div class="font-medium text-gray-900 dark:text-white">$125.00</div>
+          </div>
+          <div class="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
+            <div>{% trans "Tax" %}</div>
+            <div class="font-medium text-gray-900 dark:text-white">$0.00</div>
+          </div>
+          <div class="border-t border-gray-200 dark:border-gray-700 mt-2 pt-2 flex items-center justify-between font-semibold text-gray-900 dark:text-white">
+            <div>{% trans "Total" %}</div>
+            <div>$125.00</div>
+          </div>
+        {% endif %}
       </div>
     </div>
     
@@ -93,7 +154,7 @@
           <div class="border border-dashed border-gray-300 dark:border-gray-600 rounded p-2 h-12 mb-1">
             <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "Dr. Signature" %}</div>
           </div>
-          <div class="text-xs font-medium text-gray-900 dark:text-white">Dr. Emily Carter</div>
+          <div class="text-xs font-medium text-gray-900 dark:text-white">{{receipt.appointment.doctor.name  }}</div>
           <div class="text-xs text-gray-500 dark:text-gray-400">{% trans "Date" %}: _____</div>
         </div>
         

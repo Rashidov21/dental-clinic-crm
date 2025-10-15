@@ -6,10 +6,123 @@ from appointments.models import Appointment
 
 
 def patient_list(request):
-    patients = Patient.objects.all().order_by('full_name')
+    from django.utils import timezone
+    from datetime import datetime, timedelta
+    
+    # Get filter parameters
+    status_filter = request.GET.get('status', '')
+    doctor_filter = request.GET.get('doctor', '')
+    date_filter = request.GET.get('date', '')
+    search_query = request.GET.get('search', '')
+    
+    # Base queryset
+    patients = Patient.objects.all().order_by('-id')
+    
+    # Apply search filter
+    if search_query:
+        patients = patients.filter(
+            full_name__icontains=search_query
+        ) | patients.filter(
+            phone__icontains=search_query
+        ) | patients.filter(
+            email__icontains=search_query
+        )
+    
+    # Apply status filter (based on appointment status)
+    if status_filter:
+        if status_filter == 'has_appointments':
+            patients = patients.filter(appointments__isnull=False).distinct()
+        elif status_filter == 'no_appointments':
+            patients = patients.filter(appointments__isnull=True)
+        elif status_filter == 'upcoming_appointments':
+            patients = patients.filter(
+                appointments__date__gte=timezone.now().date(),
+                appointments__status='scheduled'
+            ).distinct()
+        elif status_filter == 'completed_appointments':
+            patients = patients.filter(
+                appointments__status='completed'
+            ).distinct()
+    
+    # Apply doctor filter (based on appointments)
+    if doctor_filter:
+        patients = patients.filter(
+            appointments__doctor_id=doctor_filter
+        ).distinct()
+    
+    # Apply date filter (based on appointment dates)
+    if date_filter:
+        if date_filter == 'today':
+            patients = patients.filter(
+                appointments__date=timezone.now().date()
+            ).distinct()
+        elif date_filter == 'week':
+            week_start = timezone.now() - timedelta(days=timezone.now().weekday())
+            patients = patients.filter(
+                appointments__date__gte=week_start.date()
+            ).distinct()
+        elif date_filter == 'month':
+            month_start = timezone.now().replace(day=1)
+            patients = patients.filter(
+                appointments__date__gte=month_start.date()
+            ).distinct()
+        elif date_filter == 'recent':
+            recent_date = timezone.now().date() - timedelta(days=30)
+            patients = patients.filter(
+                appointments__date__gte=recent_date
+            ).distinct()
+    
+    # Get counts for filter buttons
+    total_patients = Patient.objects.count()
+    has_appointments_count = Patient.objects.filter(appointments__isnull=False).distinct().count()
+    no_appointments_count = Patient.objects.filter(appointments__isnull=True).count()
+    upcoming_count = Patient.objects.filter(
+        appointments__date__gte=timezone.now().date(),
+        appointments__status='scheduled'
+    ).distinct().count()
+    completed_count = Patient.objects.filter(
+        appointments__status='completed'
+    ).distinct().count()
+    
+    # Get date counts
+    today_count = Patient.objects.filter(
+        appointments__date=timezone.now().date()
+    ).distinct().count()
+    week_start = timezone.now() - timedelta(days=timezone.now().weekday())
+    week_count = Patient.objects.filter(
+        appointments__date__gte=week_start.date()
+    ).distinct().count()
+    month_start = timezone.now().replace(day=1)
+    month_count = Patient.objects.filter(
+        appointments__date__gte=month_start.date()
+    ).distinct().count()
+    recent_count = Patient.objects.filter(
+        appointments__date__gte=timezone.now().date() - timedelta(days=30)
+    ).distinct().count()
+    
+    # Get doctors and treatments for filter dropdowns
     doctors = Doctor.objects.filter(is_active=True).order_by('name')
     treatments = Treatment.objects.filter(is_active=True).order_by('name')
-    return render(request, 'clients.html', {'patients': patients, 'doctors': doctors, 'treatments': treatments})
+    
+    context = {
+        'patients': patients,
+        'doctors': doctors,
+        'treatments': treatments,
+        'status_filter': status_filter,
+        'doctor_filter': doctor_filter,
+        'date_filter': date_filter,
+        'search_query': search_query,
+        'total_patients': total_patients,
+        'has_appointments_count': has_appointments_count,
+        'no_appointments_count': no_appointments_count,
+        'upcoming_count': upcoming_count,
+        'completed_count': completed_count,
+        'today_count': today_count,
+        'week_count': week_count,
+        'month_count': month_count,
+        'recent_count': recent_count,
+    }
+    return render(request, 'clients.html', context)
 
 
 def patient_detail(request, pk: int):

@@ -108,7 +108,7 @@
               </thead>
               <tbody class="divide-y divide-gray-200 dark:divide-gray-800">
                 {% for payment in payments %}
-                <tr>
+                <tr class="cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors" onclick="viewPaymentReceipt({{ payment.id }})">
                   <td class="px-4 py-3 text-gray-900 dark:text-white">{{ payment.patient.full_name }}</td>
                   <td class="px-4 py-3 text-gray-900 dark:text-white font-medium">${{ payment.amount }}</td>
                   <td class="px-4 py-3 text-gray-900 dark:text-white">{{ payment.get_payment_type_display }}</td>
@@ -127,6 +127,44 @@
               </tbody>
             </table>
           </div>
+          
+          <!-- Pagination -->
+          {% if paginator.num_pages > 1 %}
+          <div class="px-4 py-3 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">
+            <div class="flex items-center justify-between">
+              <div class="text-sm text-gray-700 dark:text-gray-300">
+                {% trans "Showing" %} {{ payments.start_index }} {% trans "to" %} {{ payments.end_index }} {% trans "of" %} {{ paginator.count }} {% trans "payments" %}
+              </div>
+              <div class="flex items-center space-x-2">
+                {% if payments.has_previous %}
+                  <a href="?page=1{% if request.GET.patient %}&patient={{ request.GET.patient }}{% endif %}{% if request.GET.start %}&start={{ request.GET.start }}{% endif %}{% if request.GET.end %}&end={{ request.GET.end }}{% endif %}" 
+                     class="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                    {% trans "First" %}
+                  </a>
+                  <a href="?page={{ payments.previous_page_number }}{% if request.GET.patient %}&patient={{ request.GET.patient }}{% endif %}{% if request.GET.start %}&start={{ request.GET.start }}{% endif %}{% if request.GET.end %}&end={{ request.GET.end }}{% endif %}" 
+                     class="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                    {% trans "Previous" %}
+                  </a>
+                {% endif %}
+                
+                <span class="px-3 py-1 text-sm text-gray-700 dark:text-gray-300">
+                  {% trans "Page" %} {{ payments.number }} {% trans "of" %} {{ paginator.num_pages }}
+                </span>
+                
+                {% if payments.has_next %}
+                  <a href="?page={{ payments.next_page_number }}{% if request.GET.patient %}&patient={{ request.GET.patient }}{% endif %}{% if request.GET.start %}&start={{ request.GET.start }}{% endif %}{% if request.GET.end %}&end={{ request.GET.end }}{% endif %}" 
+                     class="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                    {% trans "Next" %}
+                  </a>
+                  <a href="?page={{ paginator.num_pages }}{% if request.GET.patient %}&patient={{ request.GET.patient }}{% endif %}{% if request.GET.start %}&start={{ request.GET.start }}{% endif %}{% if request.GET.end %}&end={{ request.GET.end }}{% endif %}" 
+                     class="px-3 py-1 text-sm text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-gray-200 border border-gray-300 dark:border-gray-600 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700">
+                    {% trans "Last" %}
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+          {% endif %}
         </div>
       </div>
 
@@ -252,6 +290,12 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+
+// View payment receipt
+function viewPaymentReceipt(paymentId) {
+    // Redirect to receipt page with payment ID
+    window.location.href = `/receipt/page/?payment_id=${paymentId}`;
+}
 </script>
 {% endblock %}
 
