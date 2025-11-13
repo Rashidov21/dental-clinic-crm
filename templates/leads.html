@@ -45,7 +45,7 @@
           <h1 class="text-lg font-semibold">{% trans "New Patient Leads" %}</h1>
           <p class="text-sm text-gray-500">{% trans "Track and convert incoming leads" %}</p>
         </div>
-        <button onclick="console.log('Add Lead button clicked'); showModal('addLead');" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700">+ {% trans "Add Lead" %}</button>
+        <button onclick="showModal('addLead')" class="inline-flex items-center justify-center px-4 py-2 rounded-lg bg-teal-600 text-white text-sm font-medium hover:bg-teal-700">+ {% trans "Add Lead" %}</button>
       </div>
 
        <!-- Filter Section -->
@@ -271,21 +271,6 @@
 </div>
 
 <script>
-// Debug modal functionality
-console.log('Leads page JavaScript loaded');
-console.log('showModal function available:', typeof showModal === 'function');
-console.log('closeModal function available:', typeof closeModal === 'function');
-
-// Test if addLead modal exists
-document.addEventListener('DOMContentLoaded', function() {
-  const addLeadModal = document.getElementById('addLead');
-  if (addLeadModal) {
-    console.log('✓ addLead modal found');
-  } else {
-    console.log('✗ addLead modal NOT found');
-  }
-});
-
 // Handle edit lead functionality
 function editLead(leadId, fullName, phone, source, status, notes) {
     // Populate the edit form with current data

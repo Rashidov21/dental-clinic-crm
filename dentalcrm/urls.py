@@ -13,7 +13,6 @@ urlpatterns = [
     path('test-favicon/', TemplateView.as_view(template_name='test_favicon.html'), name='test_favicon'),
     path('test-modals/', TemplateView.as_view(template_name='test_modals.html'), name='test_modals'),
     path('debug-modals/', TemplateView.as_view(template_name='debug_modals.html'), name='debug_modals'),
-    path('simple-modal-test/', TemplateView.as_view(template_name='simple_modal_test.html'), name='simple_modal_test'),
     path('', include('accounts.urls')),
     
     # Admin
